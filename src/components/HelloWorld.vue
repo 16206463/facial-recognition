@@ -10,7 +10,7 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">zl</el-menu-item>
-      <el-menu-item index="3" >冬冬</el-menu-item>
+      <el-menu-item index="3" >冬DON---DDD</el-menu-item>
       <el-menu-item index="4"><a href="" target="_blank">tianze</a></el-menu-item>
     </el-menu>
 
@@ -97,7 +97,7 @@ a {
   color: #42b983;
 }
 .btn {
-  margin: 20px;
+  margin: 50px;
 }
 .uploadpic{
   margin: 20px;
