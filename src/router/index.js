@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Homepage from '@/components/Home'
+import loginPage from '@/components/loginPage'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/facialRecognition',
+      name: 'facialRecognition',
+      component: Homepage
+    },
+    {
+      path: '/loginPage',
+      name: 'loginPage',
+      component: loginPage
     }
   ]
 })

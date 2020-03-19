@@ -32,16 +32,23 @@
       <el-button type="primary" round>保存</el-button>
     </div>
 
+    <div>
+      <el-button @click="gotolink" class='To' type="primary" >el按钮跳转</el-button>
+    </div>
+
   </div>
+
+
 </template>
 
 <script>
+
 export default {
-  name: 'facial recognition',
+  name: 'facialRecognition',
   data () {
     
     return {
-      msg: '狗哥和他的小可爱们',
+      msg: '面部识别',
       activeIndex2: '3', //标题下变颜色
       file:'',
       dialogImageUrl: '',
@@ -67,19 +74,27 @@ export default {
       
       // 点击保存按钮上传图片
     submit2:function(res){
-    this.$refs.upload.submit();
-  },
+      this.$refs.upload.submit();
+    },
     
-  // 图片上传成功后，后台返回图片的路径
-  onSuccess:function(res){
-    // console.log(res);
-    if(res.status==200){
-      this.imgUrl=res.data.imgUrl;
+    // 图片上传成功后，后台返回图片的路径
+    onSuccess:function(res){
+      // console.log(res);
+      if(res.status==200){
+        this.imgUrl=res.data.imgUrl;
+      }
+    },
+    gotolink(){
+      //点击跳转至上次浏览页面
+      //this.$router.go(-1)
+      //指定跳转地址
+      this.$router.push('/loginPage')
     }
-  },
-    }
+  }
 }
 </script>
+
+
 
 <style scoped>
 h1, h2 {
@@ -102,4 +117,9 @@ a {
 .uploadpic{
   margin: 20px;
 }
+
+.To{
+  margin: 20px;
+}
+
 </style>
