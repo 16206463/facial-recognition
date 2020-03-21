@@ -1,13 +1,23 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/dogpic.jpg"  width="300" height="280"> -->
-    <router-view/>
+     
+    <router-link to="/loginPage" tag="button"> 登陆页 </router-link>
+    <router-link to="/facialRecognition" tag="button" > 识别页 </router-link>
+    <router-link :to="'/userPage/'+userId" tag="button" > 用户页 </router-link>
+    
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      userId: 'zl',
+    }
+  }
 }
 </script>
 
@@ -19,5 +29,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.router-link-active{
+  color: red;
 }
 </style>
