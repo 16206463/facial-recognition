@@ -70,7 +70,7 @@
               let data = {"账号":"admin","密码":"123456"};
               // axios.post("http://127.0.0.1:8000/",data)
               //   .then()
-              axios.post('/facialRecognition', {
+              axios.post('https://httpbin.org/post', {
                 firstName: 'Fred',
                 lastName: 'Flintstone'
               })
@@ -112,6 +112,5 @@
   /* .login-info >>> .el-form-item{
     width:63%;
   } */
-
 
 </style>

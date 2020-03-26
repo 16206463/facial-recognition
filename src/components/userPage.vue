@@ -3,7 +3,8 @@
 		<h1>user Page</h1>
 		<h2>{{ $route.params.userId }}</h2>
     <h3>{{ message }}</h3>
-    <button @click='getmessage'>获取</button>
+<!--    <button @click='ky' >c跨域csdn</button>-->
+    <button @click='deleteuser' >删除用户</button>
 	</div>
 
 </template>
@@ -15,19 +16,33 @@
 		name: 'userPage',
     data(){
       return{
-        message: '获取',
+        message: '',
       }
     },
 		methods: {
 
-		  getmessage() {
+      // ky() {
+      //   console.log('click')
+      //
+      //   axios({
+      //     url: '/api/articles?type=more&category=home&shown_offset=1524276761019196&first_view=false',
+      //   }).then(res => {
+      //     console.log(res);
+      //     this.message = res
+      //   })
+      //
+      // },
+
+      deleteuser() {
         console.log('click')
-		    axios({
-          url: 'http://123.207.32.32:8000/home/multidata'
-        }).then( res => {
+
+        axios({
+          url: 'http://localhost:8000/dashboard/delUser',
+        }).then(res => {
           console.log(res);
           this.message = res
         })
+
       }
 
     }

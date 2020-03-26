@@ -17,9 +17,11 @@ new Vue({
   template: '<App/>'
 })
 
-axios({
-  url: 'http://123.207.32.32:8000/home/multidata'
-}).then( res => {
-  console.log(res);
-})
-
+// axios.defaults.baseURL = '/api'
+//
+// axios.defaults.baseURL = 'http://127.0.0.1:8000'
+// axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+// axios.defaults.xsrfCookieName = 'csrftoken'
+// axios.defaults.withCredentials = true
+// axios.defaults.timeout = '5000'
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'

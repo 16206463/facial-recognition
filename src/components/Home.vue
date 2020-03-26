@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    
+
     <el-menu
       :default-active="activeIndex2"
       class="el-menu-demo"
@@ -17,7 +17,7 @@
 
     <div class="uploadpic">
       <el-upload
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="https://localhost:8000/homepage/upload"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove">
@@ -27,7 +27,7 @@
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
     </div>
-    
+
     <div class="btn">
       <el-button type="primary" round>保存</el-button>
     </div>
@@ -46,7 +46,7 @@
 export default {
   name: 'facialRecognition',
   data () {
-    
+
     return {
       msg: '面部识别',
       activeIndex2: '3', //标题下变颜色
@@ -56,7 +56,7 @@ export default {
       imgUrl:'',
       userId: '',
       uid:'',
-        
+
       // 上传图片时附带的额外参数userId
       resData:{
         userId: window.localStorage["userId"]
@@ -71,12 +71,12 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-      
+
       // 点击保存按钮上传图片
     submit2:function(res){
       this.$refs.upload.submit();
     },
-    
+
     // 图片上传成功后，后台返回图片的路径
     onSuccess:function(res){
       // console.log(res);
