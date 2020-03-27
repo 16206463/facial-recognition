@@ -38,6 +38,7 @@
 
         axios({
           url: 'http://localhost:8000/dashboard/delUser',
+          method: 'POST'
         }).then(res => {
           console.log(res);
           this.message = res

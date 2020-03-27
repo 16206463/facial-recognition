@@ -12,7 +12,8 @@
             <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-button type="primary" @click="submitusrForm('ruleForm')">添加新用户并登陆</el-button>
+            <el-button type="primary" @click="submitadForm('ruleForm')">添加新管理员并登陆</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -58,39 +59,67 @@
       };
     },
     methods: {
-      submitForm(formName) {
+      submitusrForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if(this.ruleForm.account !="admin" || this.ruleForm.password!="123456"){
-              this.$message.error('账号密码不正确');
 
-              return false;
+            var params = new URLSearchParams();
+            params.append('admin', 0); //你要传给后台的参数值 key/value
+            params.append('username', this.ruleForm.account);
+            params.append('password', this.ruleForm.password);
 
-            }else{
-              let data = {"账号":"admin","密码":"123456"};
-              // axios.post("http://127.0.0.1:8000/",data)
-              //   .then()
-              axios.post('https://httpbin.org/post', {
-                firstName: 'Fred',
-                lastName: 'Flintstone'
+            axios({
+              url: 'http://localhost:8000/dashboard/add_user',
+              data: params,
+              method: 'POST'
+            })
+              .then( (response) => {
+                console.log(response);
               })
-                .then( (response) => {
-                  console.log(response);
-                })
-                .catch( (error) => {
-                  console.log(error);
-                });
-
-              this.$message({
-                message: '登陆成功',
-                type: 'success'
+              .catch( (error) => {
+                console.log(error);
               });
 
-              this.$router.push('/facialRecognition')
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            });
 
+            this.$router.push('/facialRecognition')
 
+          } else {
+            this.$message.error('登录失败');
+            return false;
+          }
+        });
+      },
+      submitadForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var params = new URLSearchParams();
+            params.append('admin', 1); //你要传给后台的参数值 key/value
+            params.append('username', this.ruleForm.account);
+            params.append('password', this.ruleForm.password);
 
-            }
+            axios({
+              url: 'http://localhost:8000/dashboard/add_user',
+              data: params,
+              method: 'POST'
+            })
+              .then( (response) => {
+                console.log(response);
+              })
+              .catch( (error) => {
+                console.log(error);
+              });
+
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            });
+
+            this.$router.push('/facialRecognition')
+
           } else {
             this.$message.error('登录失败');
             return false;
