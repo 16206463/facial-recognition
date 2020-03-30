@@ -37,7 +37,7 @@
         console.log('click')
 
         axios({
-          url: 'http://localhost:8000/dashboard/delUser',
+          url: '/dashboard/delUser',
           method: 'POST'
         }).then(res => {
           console.log(res);

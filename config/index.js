@@ -11,10 +11,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       // '/api': {
-      //   target: 'https://www.csdn.net',
+      //   target: 'http://localhost:8000/',
+      //   // target: 'https://www.csdn.net',
       //   changeOrigin: true,
       //   pathRewrite: {
-      //     '^/api': '/api'
+      //     '^/api': '',
       //   }
       // }
     },

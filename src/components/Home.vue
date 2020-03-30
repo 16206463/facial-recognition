@@ -2,19 +2,6 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
 
-<!--    <el-menu-->
-<!--      :default-active="activeIndex2"-->
-<!--      class="el-menu-demo"-->
-<!--      mode="horizontal"-->
-<!--      background-color="#545c64"-->
-<!--      text-color="#fff"-->
-<!--      active-text-color="#ffd04b">-->
-<!--      <el-menu-item index="1">zl</el-menu-item>-->
-<!--      <el-menu-item index="3" >冬DON-&#45;&#45;DDD</el-menu-item>-->
-<!--      <el-menu-item index="4"><a href="" target="_blank">tianze</a></el-menu-item>-->
-<!--    </el-menu>-->
-
-
     <input accept="image/*" name="img" id="upload_file" type="file">
 
     <div class="btn">
@@ -22,7 +9,7 @@
     </div>
 
     <div>
-      <el-button @click="gotolink" class='To' type="primary" >el按钮跳转</el-button>
+      <el-button @click="recog" class='To' type="primary" >跳转</el-button>
     </div>
 
   </div>
@@ -50,15 +37,13 @@ export default {
       this.$router.push('/loginPage')
     },
     sendpic() {
-      // var params = new URLSearchParams();
-      // params.append('img', this.dialogImageUrl); //你要传给后台的参数值 key/value
 
       var file = document.getElementById("upload_file").files[0];
       var formdata1 = new FormData();// 创建form对象
       formdata1.append('img', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
-      //添加请求头
+
       axios({
-        url: 'http://localhost:8000/homepage/upload',
+        url: '/homepage/upload',
         data: formdata1,
         method: 'POST',
         // config
@@ -68,7 +53,39 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+// 查找用户
+    findusr() {
+      var params = new URLSearchParams();
+      params.append('username','zl');
+      axios({
+        url: '/dashboard/find_user',
+        method: 'POST',
+        // data: params
+      }).then(res => {
+        console.log(res);
+        this.msg = res;
+      })
+    },
+
+    recog() {
+      // var params = new URLSearchParams();
+      // params.append('username','oii');
+      axios({
+        url: '/dashboard/path',
+        method: 'GET'
+        // url: 'http://123.207.32.32:8000/home/multidata'
+        // data: params
+      }).then(res => {
+        console.log(res);
+        this.msg = res;
+      }).catch(error => {
+        console.log("网络请求错误", error);
+      });
     }
+
+
+
   }
 }
 </script>

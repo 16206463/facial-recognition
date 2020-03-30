@@ -67,9 +67,8 @@
             params.append('admin', 0); //你要传给后台的参数值 key/value
             params.append('username', this.ruleForm.account);
             params.append('password', this.ruleForm.password);
-
             axios({
-              url: 'http://localhost:8000/dashboard/add_user',
+              url: '/dashboard/add_user',
               data: params,
               method: 'POST'
             })
@@ -102,7 +101,7 @@
             params.append('password', this.ruleForm.password);
 
             axios({
-              url: 'http://localhost:8000/dashboard/add_user',
+              url: '/dashboard/add_user',
               data: params,
               method: 'POST'
             })
@@ -138,8 +137,4 @@
     /*background-color: #e5e8ec;*/
     padding: 2% 5% 0% 2%;
   }
-  /* .login-info >>> .el-form-item{
-    width:63%;
-  } */
-
 </style>
