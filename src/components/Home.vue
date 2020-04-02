@@ -36,6 +36,7 @@ export default {
       hit: '',
       play: false,
       // src: ''   '/Users/macbookair/facial_recognition_back_end/media/new_img/1.jpg'
+
     };
   },
   methods: {
