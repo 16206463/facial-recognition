@@ -12,6 +12,11 @@
       <el-button @click="recog" class='To' type="primary" >跳转</el-button>
     </div>
 
+    <el-button @click="recog" class='To' type="primary" > show </el-button>
+    <div class="block">
+      <!--        <img id="pic" width="200px" v-if="play" :src=" src " />-->
+    </div>
+
   </div>
 
 
@@ -25,7 +30,12 @@ export default {
   data () {
 
     return {
-      msg: '面部识别',
+      msg: 'facial recognition',
+      piclist: [],
+      picsize: 0,
+      hit: '',
+      play: false,
+      // src: ''   '/Users/macbookair/facial_recognition_back_end/media/new_img/1.jpg'
     };
   },
   methods: {
