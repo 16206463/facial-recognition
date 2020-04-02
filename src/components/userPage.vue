@@ -4,7 +4,7 @@
 		<h2>{{ $route.params.userId }}</h2>
     <h3>{{ message }}</h3>
 <!--    <button @click='ky' >c跨域csdn</button>-->
-    <button @click='deleteuser' >删除用户</button>
+    <button @click='deleteuser' >delete user</button>
 	</div>
 
 </template>
@@ -20,18 +20,6 @@
       }
     },
 		methods: {
-
-      // ky() {
-      //   console.log('click')
-      //
-      //   axios({
-      //     url: '/api/articles?type=more&category=home&shown_offset=1524276761019196&first_view=false',
-      //   }).then(res => {
-      //     console.log(res);
-      //     this.message = res
-      //   })
-      //
-      // },
 
       deleteuser() {
         console.log('click')
