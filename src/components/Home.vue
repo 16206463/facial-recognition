@@ -12,8 +12,11 @@
       <el-button @click="recog" class='To' type="primary" >跳转</el-button>
     </div>
 
-  </div>
+    <div class="block">
+      <!--        <img id="pic" width="200px" v-if="play" :src=" src " />-->
+    </div>
 
+  </div>
 
 </template>
 
@@ -21,11 +24,16 @@
   import axios from "axios";
 export default {
 
+
   name: 'facialRecognition',
   data () {
 
     return {
-      msg: '面部识别',
+      msg: 'facial recognition',
+      piclist: [],
+      picsize: 0,
+      hit: '',
+      play: false,
     };
   },
   methods: {
@@ -49,10 +57,14 @@ export default {
         // config
       }).then((response) => {
         console.log(response);
+        alert("Upload Success!");
+
       })
         .catch((error) => {
           console.log(error);
         });
+
+      document.getElementById("upload_file").value = ''
     },
 // 查找用户
     findusr() {
@@ -73,18 +85,37 @@ export default {
       // params.append('username','oii');
       axios({
         url: '/dashboard/path',
-        method: 'GET'
+        method: 'POST'
         // url: 'http://123.207.32.32:8000/home/multidata'
         // data: params
       }).then(res => {
-        console.log(res);
-        this.msg = res;
+        this.piclist = res.data.toString().split('@@@');
+        this.picsize = this.piclist.length - 1;
+        console.log(this.piclist)
+        this.hit = this.piclist[0]
+        console.log(this.hit)
+        this.msg = res.data.toString();
+
       }).catch(error => {
-        console.log("网络请求错误", error);
+        console.log("付子欣你网络请求错误", error);
       });
+      this.play = true
+
+    },
+
+    delusr() {
+      var params = new URLSearchParams();
+      params.append('username','oii');
+      axios({
+        url: '/dashboard/delete_user',
+        method: 'POST'
+        // url: 'http://123.207.32.32:8000/home/multidata'
+        // data: params
+      }).then(res => {
+
+
+      })
     }
-
-
 
   }
 }
@@ -92,6 +123,8 @@ export default {
 
 
 <style scoped>
+
+
 h1, h2 {
   font-weight: normal;
 }
@@ -101,5 +134,9 @@ h1, h2 {
 
 .To{
   margin: 20px;
+}
+
+.upload{
+  margin: 100px;
 }
 </style>
