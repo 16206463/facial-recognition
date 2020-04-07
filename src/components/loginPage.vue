@@ -91,7 +91,6 @@
             params.append('admin', 0); //你要传给后台的参数值 key/value
             params.append('username', this.ruleForm.account);
             params.append('password', this.ruleForm.password);
-
             axios({
               url: '/dashboard/add_user',
               data: params,

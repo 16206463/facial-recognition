@@ -48,17 +48,17 @@ export default {
 
       var file = document.getElementById("upload_file").files[0];
       var formdata1 = new FormData();// 创建form对象
-      formdata1.append('face', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
-      formdata1.append('username','momo')
+      formdata1.append('img', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
 
       axios({
-        url: '/dashboard/rec',
+        url: '/homepage/upload',
         data: formdata1,
         method: 'POST',
         // config
       }).then((response) => {
         console.log(response);
         alert("Upload Success!");
+
       })
         .catch((error) => {
           console.log(error);
@@ -81,25 +81,25 @@ export default {
     },
 
     recog() {
+      // var params = new URLSearchParams();
+      // params.append('username','oii');
       axios({
         url: '/dashboard/path',
         method: 'POST'
-      }).then((res) => {
-        // this.piclist = res.data.toString().split('@@@');
-        // this.picsize = this.piclist.length - 1;
-        // console.log(this.piclist)
-        // this.hit = this.piclist[0]
-        // console.log(this.hit)
-        // this.msg = res.data.toString();
-
-        console.info(res.data)
-        this.piclist = res.data
-        // console.info(this.piclist.length)
-
+        // url: 'http://123.207.32.32:8000/home/multidata'
+        // data: params
+      }).then(res => {
+        this.piclist = res.data.toString().split('@@@');
+        this.picsize = this.piclist.length - 1;
+        console.log(this.piclist)
+        this.hit = this.piclist[0]
+        console.log(this.hit)
+        this.msg = res.data.toString();
 
       }).catch(error => {
         console.log("付子欣你网络请求错误", error);
       });
+      this.play = true
 
     },
 
