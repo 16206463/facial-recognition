@@ -1,5 +1,4 @@
 <template>
-  <div class="login-info">
     <!--<el-row>-->
       <!--<el-col >-->
         <!--<h3 style="text-align: center;"> login page </h3>-->
@@ -18,7 +17,7 @@
         <!--</el-form>-->
       <!--</el-col>-->
     <!--</el-row>-->
-    <div class="container">
+    <div class="login_page fillcontain">
       <transition name="form-fade" mode="in-out">
         <section class="form_contianer" v-show="showLogin">
           <div class="manage_tip">
@@ -32,7 +31,10 @@
               <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">Log in</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Admin Login</el-button>
             </el-form-item>
           </el-form>
           <p class="tip">Automatic registration of new users.</p>
@@ -41,7 +43,7 @@
       </transition>
     </div>
 
-  </div>
+
 </template>
 
 <script>
@@ -91,7 +93,7 @@
             { required: true, message: 'Please enter password', trigger: 'blur' }
           ],
         },
-        showLogin: false,
+        showLogin: true,
       };
     },
     methods: {
@@ -168,37 +170,44 @@
   }
 </script>
 
-<style scoped>
-  .login-info{
-    /*background-color: #e5e8ec;*/
-    /*padding: 2% 5% 0% 2%;*/
-    width:300px;
-    height:320px;
+<style lang="less" scoped>
+  @import '../style/mixin';
+  .login_page{
+    width: 100%;
+    height: 100%;
+    background: #c5f1fc;
   }
   .manage_tip{
     position: absolute;
     width: 100%;
     top: -100px;
     left: 0;
-  }
-  .container {
-
-    height:100%;width:100%;
-    /*width: 100%;*/
-    border: 1px solid green;
-    position:fixed;
-
+    p{
+      font-size: 50px;
+      color: #023845;
+    }
   }
   .form_contianer{
-
+    .wh(320px, 210px);
+    .ctp(320px, 210px);
     padding: 25px;
     border-radius: 5px;
     text-align: center;
     background-color: #fff;
+    .submit_btn{
+      width: 100%;
+      font-size: 16px;
+    }
   }
   .tip{
     font-size: 12px;
     color: #023845;
   }
-
+  .form-fade-enter-active, .form-fade-leave-active {
+    transition: all 1s;
+  }
+  .form-fade-enter, .form-fade-leave-active {
+    transform: translate3d(0, -50px, 0);
+    opacity: 0;
+  }
 </style>
