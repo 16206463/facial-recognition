@@ -5,15 +5,12 @@
     <input accept="image/*" name="img" id="upload_file" type="file">
 
     <div class="btn">
-      <el-button type="primary" round @click="sendpic">保存</el-button>
+      <el-button type="primary" round @click="sendpic">{{ recogText }}</el-button>
     </div>
 
-    <div>
-      <el-button @click="recog" class='To' type="primary" >跳转</el-button>
-    </div>
 
     <div class="block">
-      <p> the accuracy is {{accuracyText}}</p>
+      <p> The accuracy is {{ accuracy }}</p>
     </div>
 
   </div>
@@ -34,7 +31,10 @@ export default {
       picsize: 0,
       hit: '',
       play: false,
-      accuracyText:''
+
+      accuracy: '',
+
+      recogText: 'recognition'
     };
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
       var file = document.getElementById("upload_file").files[0];
       var formdata1 = new FormData();// 创建form对象
       formdata1.append('face', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
-      formdata1.append('username','momo')
+      formdata1.append('username','aa')
 
       axios({
         url: '/dashboard/rec',
@@ -59,8 +59,11 @@ export default {
         // config
       }).then((response) => {
         console.log(response);
+
         alert("Upload Success!");
-        this.accuracyText = response.data
+
+
+        this.accuracy = response.data
       })
         .catch((error) => {
           console.log(error);
@@ -87,17 +90,8 @@ export default {
         url: '/dashboard/path',
         method: 'POST'
       }).then((res) => {
-        // this.piclist = res.data.toString().split('@@@');
-        // this.picsize = this.piclist.length - 1;
-        // console.log(this.piclist)
-        // this.hit = this.piclist[0]
-        // console.log(this.hit)
-        // this.msg = res.data.toString();
 
         console.info(res.data)
-        this.piclist = res.data
-        // console.info(this.piclist.length)
-
 
       }).catch(error => {
         console.log("付子欣你网络请求错误", error);
@@ -134,11 +128,12 @@ h1, h2 {
   margin: 20px;
 }
 
-.To{
-  margin: 20px;
+.btn {
+  margin: 50px;
 }
 
-.upload{
-  margin: 100px;
+#upload_file {
+  margin: 50px;
+
 }
 </style>
