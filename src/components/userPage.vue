@@ -4,23 +4,19 @@
 		<h2>{{ $route.params.userId }}</h2>
     <h3>{{ message }}</h3>
 <!--    <button @click='ky' >c跨域csdn</button>-->
-    <button @click='deleteuser' >{{ deleteUserText }}</button>
+    <button @click='deleteuser' >删除用户</button>
 
 
     <div class="camera_outer">
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
 
-      <div class="btns">
-        <button @click="getCompetence"> {{OpenTheCameraText}} </button>
-        <button @click="setImage"> {{TakeAPictureText}} </button>
-        <button @click="stopNavigator"> {{ CloseTheCameraText }} </button>
-        <button @click="handleUpdata"> {{ uploadText }} </button>
+      <button @click="getCompetence"> 打开相机 </button>
+      <button @click="setImage"> 拍照 </button>
+      <button @click="stopNavigator"> 停 </button>
+      <button @click="handleUpdata"> 上传 </button>
 
-        <button @click="train"> {{ ToExamPageText }} </button>
-
-      </div>
-
+      <button @click="train"> 跳转考试页 </button>
 
       <img :src="imgSrc">
 
@@ -37,16 +33,6 @@
 		name: 'userPage',
     data(){
       return{
-
-        OpenTheCameraText: 'Open The Camera',
-        TakeAPictureText: 'Take A Picture',
-        CloseTheCameraText: 'Close The Camera',
-        uploadText: 'upload',
-        ToExamPageText: 'To Exam Page',
-        deleteUserText: 'delete user',
-
-
-
         message: '',
         videoWidth: 540,
         videoHeight: 410,
@@ -133,7 +119,7 @@
           let conversions = this.dataURLtoFile(file, name); // 调用base64转图片方法
           let parms=new FormData();
           parms.append('face',conversions,name);
-          parms.append('username','aa');
+          parms.append('username','zl');
           axios({
             url: '/dashboard/set',
             data: parms,
@@ -153,7 +139,7 @@
 
       train(){
         var parms=new FormData();
-        parms.append('username','aa');
+        parms.append('username','zl');
         axios({
           url: '/dashboard/train',
           data: parms,

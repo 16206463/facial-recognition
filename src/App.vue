@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/dogpic.jpg"  width="300" height="280"> -->
-
-    <router-link to="/loginPage" tag="button"> {{ loginPageText }} </router-link>
-    <router-link to="/facialRecognition" tag="button" > {{ examPageText }} </router-link>
-    <router-link :to="'/userPage/'+userId" tag="button" > {{ profileText }} </router-link>
-
+     
+    <router-link to="/loginPage" tag="button"> 登陆页 </router-link>
+    <router-link to="/facialRecognition" tag="button" > 识别页 </router-link>
+    <router-link :to="'/userPage/'+userId" tag="button" > 用户页 </router-link>
+    
     <router-view></router-view>
   </div>
 </template>
@@ -16,9 +16,6 @@ export default {
   data() {
     return {
       userId: 'zl',
-      loginPageText: 'login page',
-      examPageText: 'exam page',
-      profileText: 'user page'
     }
   }
 }
