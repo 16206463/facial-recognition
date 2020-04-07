@@ -43,7 +43,6 @@
       </transition>
     </div>
 
-
 </template>
 
 <script>
@@ -67,33 +66,20 @@
         }
       };
       return {
-        // ruleForm: {
-        //   account: '',
-        //   password: '',
-        // },
-        // rules: {
-        //   account: [{
-        //     validator: validateAccount,
-        //     trigger: 'blur'
-        //   }],
-        //   password: [{
-        //     validator: validatePassword,
-        //     trigger: 'blur'
-        //   }]
-        // },
-        loginForm: {
-          username: '',
+        ruleForm: {
+          account: '',
           password: '',
         },
         rules: {
-          username: [
-            { required: true, message: 'Please enter user name', trigger: 'blur' },
-          ],
-          password: [
-            { required: true, message: 'Please enter password', trigger: 'blur' }
-          ],
-        },
-        showLogin: true,
+          account: [{
+            validator: validateAccount,
+            trigger: 'blur'
+          }],
+          password: [{
+            validator: validatePassword,
+            trigger: 'blur'
+          }]
+        }
       };
     },
     methods: {
@@ -105,6 +91,7 @@
             params.append('admin', 0); //你要传给后台的参数值 key/value
             params.append('username', this.ruleForm.account);
             params.append('password', this.ruleForm.password);
+
             axios({
               url: '/dashboard/add_user',
               data: params,
