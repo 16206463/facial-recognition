@@ -58,7 +58,6 @@ export default {
       }).then((response) => {
         console.log(response);
         alert("Upload Success!");
-
       })
         .catch((error) => {
           console.log(error);
