@@ -13,7 +13,7 @@
     </div>
 
     <div class="block">
-      <!--        <img id="pic" width="200px" v-if="play" :src=" src " />-->
+      <p> the accuracy is {{accuracyText}}</p>
     </div>
 
   </div>
@@ -34,6 +34,7 @@ export default {
       picsize: 0,
       hit: '',
       play: false,
+      accuracyText:''
     };
   },
   methods: {
@@ -59,6 +60,7 @@ export default {
       }).then((response) => {
         console.log(response);
         alert("Upload Success!");
+        this.accuracyText = response.data
       })
         .catch((error) => {
           console.log(error);
