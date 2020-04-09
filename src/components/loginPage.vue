@@ -1,33 +1,40 @@
 <template>
 
-  <div class="login-info">
 
-    <div class="container">
 
-      <transition name="form-fade" mode="in-out">
-        <section class="form_contianer" v-show="showLogin">
-          <div class="manage_tip">
-            <p>Welcome</p>
-          </div>
-          <el-form :model="loginForm" :rules="rules" ref="loginForm">
-            <el-form-item prop="username">
-              <el-input v-model="loginForm.username" placeholder="User Name"><span>dsfsf</span></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Admin Login</el-button>
-            </el-form-item>
-          </el-form>
-          <p class="tip">Automatic registration of new users.</p>
-          <p class="tip">Registered users log in with user name and password.</p>
-        </section>
-      </transition>
-    </div>
+  <div class="login_page fillcontain">
+
+    <transition name="form-fade" mode="in-out">
+
+      <section class="form_contianer">
+
+        <div class="manage_tip">
+          <p>Welcome</p >
+        </div>
+
+        <el-form :model="loginForm" :rules="rules" ref="loginForm">
+          <el-form-item prop="username">
+            <el-input v-model="loginForm.username" placeholder="User Name"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
+          </el-form-item>
+        </el-form>
+        <p class="tip">Automatic registration of new users.</p >
+        <p class="tip">Registered users log in with user name and password.</p >
+      </section>
+
+    </transition>
+
+  </div>
+
+
 </template>
 
 <script>
@@ -151,12 +158,28 @@
     width: 100%;
     height: 100%;
     background: #c5f1fc;
+
   }
   .manage_tip{
     position: absolute;
     width: 100%;
     top: -100px;
     left: 0;
+  }
+
+  .form_contianer{
+    .wh(320px, 210px);
+    .ctp(320px, 210px);
+    padding: 25px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #fff;
+    .submit_btn{
+      width: 100%;
+      font-size: 16px;
+      background-color: #ffffff;
+      color: #555555;
+    }
   }
   .container {
 
