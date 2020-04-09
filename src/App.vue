@@ -1,10 +1,24 @@
 <template>
   <div id="app">
-    <!-- < img src="./assets/dogpic.jpg"  width="300" height="280"> -->
 
-    <router-link to="/loginPage" tag="button"> 登陆页 </router-link>
-    <router-link to="/facialRecognition" tag="button" > 识别页 </router-link>
-    <router-link :to="'/userPage/'+userId" tag="button" > 用户页 </router-link>
+    <div class="line"></div>
+    <el-menu
+      router
+      :default-active="this.$router.path"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-menu-item index="/loginPage" >Login Page</el-menu-item>
+      <el-menu-item index="/userPage">User Page</el-menu-item>
+      <el-menu-item index="/facialRecognition">Exam Page</el-menu-item>
+    </el-menu>
+
+    <!--<router-link to="/loginPage" tag="button"> {{loginPage}} </router-link>-->
+    <!--<router-link to="/facialRecognition" tag="button" > {{examPage}} </router-link>-->
+    <!--<router-link :to="'/userPage/'+userId" tag="button" > {{userPage}} </router-link>-->
 
     <router-view></router-view>
   </div>
@@ -16,10 +30,24 @@
     data() {
       return {
         userId: 'zl',
+        loginPage: 'login page',
+        examPage:'exam page',
+        userPage:'user page',
+        //
+        // activeIndex: '1',
+        // activeIndex2: '1'
+      }
+    },
+
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+
       }
     }
   }
 </script>
+
 
 <style>
   #app {
@@ -34,4 +62,5 @@
   .router-link-active{
     color: red;
   }
+
 </style>
