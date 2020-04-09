@@ -6,28 +6,46 @@
 
     <transition name="form-fade" mode="in-out">
 
-      <section class="form_contianer">
+      <section class="form_contianer" v-show="showLogin">
 
         <div class="manage_tip">
+
           <p>Welcome</p >
+
         </div>
 
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
+
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="User Name"></el-input>
+
+            <el-input v-model="loginForm.username" placeholder="User Name"><span>dsfsf</span></el-input>
+
           </el-form-item>
+
           <el-form-item prop="password">
+
             <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
+
           </el-form-item>
+
           <el-form-item>
+
             <el-button round @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
+
           </el-form-item>
+
           <el-form-item>
+
             <el-button round @click="submitForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
+
           </el-form-item>
+
         </el-form>
+
         <p class="tip">Automatic registration of new users.</p >
+
         <p class="tip">Registered users log in with user name and password.</p >
+
       </section>
 
     </transition>
@@ -37,43 +55,73 @@
 
 </template>
 
+
+
 <script>
+
   import axios from "axios";
 
   export default {
+
     name: 'login',
+
     data() {
+
       var validateAccount = (rule,value,callback) => {
+
         if(value ===''){
+
           return callback(new Error("账号不能为空"));
+
         }else{
+
           callback();
+
         }
+
       };
+
       var validatePassword = (rule, value, callback) => {
+
         if (value === '') {
+
           callback(new Error('请输入密码'));
+
         } else {
+
           callback();
+
         }
+
       };
+
       return {
 
-        ruleForm: {
-          account: '',
+        loginForm: {
+
+          username: '',
 
           password: '',
-        },
-        rules: {
-          username: [
-            { required: true, message: 'Please enter user name', trigger: 'blur' },
-          ],
-          password: [
-            { required: true, message: 'Please enter password', trigger: 'blur' }
-          ],
+
         },
 
+        rules: {
+
+          username: [
+
+            { required: true, message: 'Please enter user name', trigger: 'blur' },
+
+          ],
+
+          password: [
+
+            { required: true, message: 'Please enter password', trigger: 'blur' }
+
+          ],
+
+        },
         showLogin: true,
+
       };
     },
     methods: {
@@ -158,7 +206,6 @@
     width: 100%;
     height: 100%;
     background: #c5f1fc;
-
   }
   .manage_tip{
     position: absolute;
@@ -177,8 +224,6 @@
     .submit_btn{
       width: 100%;
       font-size: 16px;
-      background-color: #ffffff;
-      color: #555555;
     }
   }
   .container {
