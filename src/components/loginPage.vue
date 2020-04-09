@@ -14,10 +14,10 @@
               <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button round @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button round @click="submitForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')" class="submit_btn">Admin Login</el-button>
             </el-form-item>
           </el-form>
           <p class="tip">Automatic registration of new users.</p>
@@ -25,11 +25,12 @@
         </section>
       </transition>
     </div>
-  </div>
+
 </template>
 
 <script>
   import axios from "axios";
+
   export default {
     name: 'login',
     data() {
@@ -48,8 +49,8 @@
         }
       };
       return {
-        loginForm: {
-          username: '',
+        ruleForm: {
+          account: '',
           password: '',
         },
         rules: {
@@ -68,6 +69,7 @@
       submitusrForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+
             var params = new URLSearchParams();
             params.append('admin', 0); //你要传给后台的参数值 key/value
             params.append('username', this.ruleForm.account);
@@ -142,9 +144,10 @@
 <style lang="less" scoped>
   @import '../style/mixin';
   .login_page{
-
+    width: 100%;
+    height: 100%;
+    background: #c5f1fc;
   }
-
   .manage_tip{
     position: absolute;
     width: 100%;
@@ -160,23 +163,21 @@
 
   }
   .form_contianer{
-    .wh(320px, 280px);
+    .wh(320px, 210px);
     .ctp(320px, 210px);
     padding: 25px;
-    border-radius: 15px;
+    border-radius: 5px;
     text-align: center;
-    background-color: #545c64;
+    background-color: #fff;
     .submit_btn{
       width: 100%;
       font-size: 16px;
-      background-color: #ffffff;
-      color: #555555;
     }
 
   }
   .tip{
     font-size: 12px;
-    color: #fff;
+    color: #023845;
   }
 
   .form-fade-enter-active, .form-fade-leave-active {
@@ -186,5 +187,4 @@
     transform: translate3d(0, -50px, 0);
     opacity: 0;
   }
-
 </style>
