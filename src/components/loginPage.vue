@@ -1,6 +1,9 @@
 <template>
 
-    <div class="login_page fillcontain">
+  <div class="login-info">
+
+    <div class="container">
+
       <transition name="form-fade" mode="in-out">
         <section class="form_contianer" v-show="showLogin">
           <div class="manage_tip">
@@ -25,7 +28,6 @@
         </section>
       </transition>
     </div>
-
 </template>
 
 <script>
@@ -49,8 +51,10 @@
         }
       };
       return {
+
         ruleForm: {
           account: '',
+
           password: '',
         },
         rules: {

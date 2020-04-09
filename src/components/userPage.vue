@@ -3,8 +3,8 @@
 		<h1>user Page</h1>
 		<h2>{{ $route.params.userId }}</h2>
     <h3>{{ message }}</h3>
-<!--    <button @click='ky' >c跨域csdn</button>-->
-    <button @click='deleteuser' >删除用户</button>
+
+    <button @click='deleteuser' >{{ deleteUserText }}</button>
 
 
     <div class="camera_outer">
@@ -12,12 +12,15 @@
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
 
 
-      <button @click="getCompetence"> 打开相机 </button>
-      <button @click="setImage"> 拍照 </button>
-      <button @click="stopNavigator"> 停 </button>
-      <button @click="handleUpdata"> 上传 </button>
+      <div class="btns">
+        <button @click="getCompetence"> {{OpenTheCameraText}} </button>
+        <button @click="setImage"> {{TakeAPictureText}} </button>
+        <button @click="stopNavigator"> {{ CloseTheCameraText }} </button>
+        <button @click="handleUpdata"> {{ uploadText }} </button>
 
-      <button @click="train"> 跳转考试页 </button>
+        <button @click="train"> {{ ToExamPageText }} </button>
+
+      </div>
 
       <img :src="imgSrc">
 
@@ -39,6 +42,15 @@
         videoHeight: 410,
         imgSrc: '',
         thisVideo: null,
+        thisCancas: null,
+        thisContext: null,
+        OpenTheCameraText: 'Open The Camera',
+        TakeAPictureText: 'Take A Picture',
+        CloseTheCameraText: 'Close The Camera',
+        uploadText: 'upload',
+        ToExamPageText: 'To Exam Page',
+        deleteUserText: 'delete user',
+        num: 0
       }
     },
 
@@ -61,6 +73,8 @@
 
       getCompetence () {
         var _this = this
+        this.thisCancas = document.getElementById('canvasCamera')
+        this.thisContext = this.thisCancas.getContext('2d')
         this.thisVideo = document.getElementById('videoCamera')
 
         var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
@@ -77,6 +91,32 @@
 
       stopNavigator () {
         this.thisVideo.srcObject.getTracks()[0].stop()
+      },
+
+      setImage () {
+        var _this = this
+        // 点击，canvas画图
+        _this.thisContext.drawImage(_this.thisVideo, 0, 0, _this.videoWidth, _this.videoHeight)
+        // 获取图片base64链接
+        var image = this.thisCancas.toDataURL('image/png')
+        _this.imgSrc = image
+        this.$emit('refreshDataList', this.imgSrc)
+
+        // var index = 0;
+        //
+        // if (index < 100) {
+        //   setTimeout(function () {
+        //     index++;
+        //
+        //
+        //
+        //
+        //
+        //
+        //     console.log(index);
+        //   }, 5000)
+        // }
+        // setImage();
       },
 
 
@@ -97,12 +137,12 @@
           let file = this.imgSrc; // 把整个base64给file
           let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
           let time=(new Date()).valueOf();//生成时间戳
-          let name = this.num + ".jpg"; // 定义文件名字（例如：abc.png ， cover.png）
+          let name = this.num + ".jpg"; // 定义文件名字
           this.num += 1
           let conversions = this.dataURLtoFile(file, name); // 调用base64转图片方法
           let parms=new FormData();
           parms.append('face',conversions,name);
-          parms.append('username','zl');
+          parms.append('username','abey');   // 谁的10张照片
           axios({
             url: '/dashboard/set',
             data: parms,
@@ -122,7 +162,7 @@
 
       train(){
         var parms=new FormData();
-        parms.append('username','zl');
+        parms.append('username','abey'); //train value 训练模型名字
         axios({
           url: '/dashboard/train',
           data: parms,
@@ -153,7 +193,7 @@
     background-size: 100%;
 
   }
-  video,canvas,.tx_img{
+  video,canvas{
     -moz-transform:scaleX(-1);
     -webkit-transform:scaleX(-1);
     -o-transform:scaleX(-1);

@@ -5,7 +5,7 @@
     <input accept="image/*" name="img" id="upload_file" type="file">
 
     <div class="btn">
-      <el-button type="primary" round @click="sendpic">保存</el-button>
+      <el-button type="primary" round @click="sendpic">{{ recogText }}</el-button>
     </div>
 
     <div>
@@ -13,8 +13,7 @@
     </div>
 
     <div class="block">
-
-      <p> the accuracy is {{accuracyText}}</p>
+      <p> The accuracy is {{ accuracy }}</p>
     </div>
 
   </div>
@@ -35,8 +34,9 @@ export default {
       picsize: 0,
       hit: '',
       play: false,
+      recogText: 'recog',
 
-      accuracyText:''
+      accuracy: ''
     };
   },
   methods: {
@@ -53,10 +53,10 @@ export default {
       var formdata1 = new FormData();// 创建form对象
 
       formdata1.append('face', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
-      formdata1.append('username','momo')
+      formdata1.append('username','abey')
 
       axios({
-        url: '/homepage/upload',
+        url: 'dashboard/rec',
         data: formdata1,
         method: 'POST',
         // config
@@ -75,7 +75,7 @@ export default {
 // 查找用户
     findusr() {
       var params = new URLSearchParams();
-      params.append('username','zl');
+      params.append('username','abey');
       axios({
         url: '/dashboard/find_user',
         method: 'POST',
@@ -94,12 +94,6 @@ export default {
         method: 'POST'
 
       }).then((res) => {
-        // this.piclist = res.data.toString().split('@@@');
-        // this.picsize = this.piclist.length - 1;
-        // console.log(this.piclist)
-        // this.hit = this.piclist[0]
-        // console.log(this.hit)
-        // this.msg = res.data.toString();
 
         console.info(res.data)
         this.piclist = res.data
@@ -123,7 +117,6 @@ export default {
         // data: params
       }).then(res => {
 
-
       })
     }
 
@@ -138,15 +131,17 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
-.uploadpic{
-  margin: 20px;
-}
 
 .To{
   margin: 20px;
 }
 
-.upload{
-  margin: 100px;
+.btn {
+  margin: 50px;
+}
+
+#upload_file {
+  margin: 50px;
+
 }
 </style>
