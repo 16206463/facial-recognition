@@ -13,6 +13,7 @@
     </div>
 
     <div class="block">
+
       <p> the accuracy is {{accuracyText}}</p>
     </div>
 
@@ -34,6 +35,7 @@ export default {
       picsize: 0,
       hit: '',
       play: false,
+
       accuracyText:''
     };
   },
@@ -49,17 +51,19 @@ export default {
 
       var file = document.getElementById("upload_file").files[0];
       var formdata1 = new FormData();// 创建form对象
+
       formdata1.append('face', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
       formdata1.append('username','momo')
 
       axios({
-        url: '/dashboard/rec',
+        url: '/homepage/upload',
         data: formdata1,
         method: 'POST',
         // config
       }).then((response) => {
         console.log(response);
         alert("Upload Success!");
+
         this.accuracyText = response.data
       })
         .catch((error) => {
@@ -83,9 +87,12 @@ export default {
     },
 
     recog() {
+      // var params = new URLSearchParams();
+      // params.append('username','oii');
       axios({
         url: '/dashboard/path',
         method: 'POST'
+
       }).then((res) => {
         // this.piclist = res.data.toString().split('@@@');
         // this.picsize = this.piclist.length - 1;
@@ -102,6 +109,7 @@ export default {
       }).catch(error => {
         console.log("付子欣你网络请求错误", error);
       });
+      this.play = true
 
     },
 

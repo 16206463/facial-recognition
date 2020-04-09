@@ -42,13 +42,14 @@
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+
       }
     }
   }
 </script>
 
-<style lang="less">
-  /*@import './style/common';*/
+
+<style>
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -61,6 +62,5 @@
   .router-link-active{
     color: red;
   }
-
 
 </style>

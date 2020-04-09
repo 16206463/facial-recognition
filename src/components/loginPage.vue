@@ -1,4 +1,5 @@
 <template>
+
     <div class="login_page fillcontain">
       <transition name="form-fade" mode="in-out">
         <section class="form_contianer" v-show="showLogin">
@@ -24,6 +25,7 @@
         </section>
       </transition>
     </div>
+  </div>
 </template>
 
 <script>
@@ -58,6 +60,7 @@
             { required: true, message: 'Please enter password', trigger: 'blur' }
           ],
         },
+
         showLogin: true,
       };
     },
@@ -135,6 +138,7 @@
   }
 </script>
 
+
 <style lang="less" scoped>
   @import '../style/mixin';
   .login_page{
@@ -146,10 +150,14 @@
     width: 100%;
     top: -100px;
     left: 0;
-    p{
-      font-size: 50px;
-      color: #023845;
-    }
+  }
+  .container {
+
+    height:100%;width:100%;
+    /*width: 100%;*/
+    border: 1px solid green;
+    position:fixed;
+
   }
   .form_contianer{
     .wh(320px, 280px);
@@ -164,11 +172,13 @@
       background-color: #ffffff;
       color: #555555;
     }
+
   }
   .tip{
     font-size: 12px;
     color: #fff;
   }
+
   .form-fade-enter-active, .form-fade-leave-active {
     transition: all 1s;
   }

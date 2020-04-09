@@ -11,6 +11,7 @@
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
 
+
       <button @click="getCompetence"> 打开相机 </button>
       <button @click="setImage"> 拍照 </button>
       <button @click="stopNavigator"> 停 </button>
@@ -38,10 +39,6 @@
         videoHeight: 410,
         imgSrc: '',
         thisVideo: null,
-        num: 0,
-
-        thisCancas: null,
-        thisContext: null,
       }
     },
 
@@ -66,10 +63,6 @@
         var _this = this
         this.thisVideo = document.getElementById('videoCamera')
 
-        this.thisCancas = document.getElementById('canvasCamera');
-        this.thisContext = this.thisCancas.getContext('2d');
-
-
         var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
 
         navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
@@ -86,16 +79,6 @@
         this.thisVideo.srcObject.getTracks()[0].stop()
       },
 
-      setImage () {
-        var _this = this
-        // 点击，canvas画图
-        _this.thisContext.drawImage(_this.thisVideo, 0, 0, _this.videoWidth, _this.videoHeight)
-        // 获取图片base64链接
-        var image = this.thisCancas.toDataURL('image/png')
-        _this.imgSrc = image
-        this.$emit('refreshDataList', this.imgSrc)
-        console.log(image + ' %%image%%')
-      },
 
       dataURLtoFile (dataurl, filename) {
         var arr = dataurl.split(',')
@@ -152,17 +135,13 @@
 
         this.$router.push('/facialRecognition')
       }
-
-
     },
     mounted () {
       this.getCompetence()
     },
     beforeDestroy () {
       this.stopNavigator()
-    },
-
-
+    }
 
 	}
 </script>
