@@ -139,7 +139,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  @import '../style/mixin';
+
   .login-info{
     /*background-color: #e5e8ec;*/
     /*padding: 2% 5% 0% 2%;*/
