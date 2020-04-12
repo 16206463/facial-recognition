@@ -8,6 +8,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    { path: '*', redirect: '/loginPage' },
     {
       path: '/facialRecognition',
       name: 'facialRecognition',
@@ -19,7 +20,7 @@ export default new Router({
       component: loginPage
     },
     {
-      path: '/userPage/:userId',
+      path: '/userPage/:username',
       component: userPage
     }
   ],

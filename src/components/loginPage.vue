@@ -1,40 +1,26 @@
 <template>
+  <div class="login-info">
 
-
-
-  <div class="login_page fillcontain">
-
-    <transition name="form-fade" mode="in-out">
-
-      <section class="form_contianer">
-
-        <div class="manage_tip">
-          <p>Welcome</p >
-        </div>
-
-        <el-form :model="loginForm" :rules="rules" ref="loginForm">
-          <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="User Name"></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
-          </el-form-item>
-        </el-form>
-        <p class="tip">Automatic registration of new users.</p >
-        <p class="tip">Registered users log in with user name and password.</p >
-      </section>
-
-    </transition>
+      <el-row>
+        <el-col >
+          <h3 style="text-align: center;"> login page </h3>
+          <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="账号：" prop="account">
+              <el-input  v-model="ruleForm.account" autocomplete="off" clearable>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="密码：" prop="password">
+              <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitusrForm('ruleForm')">添加新用户并登陆</el-button>
+              <el-button type="primary" @click="submitadForm('ruleForm')">添加新管理员并登陆</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
 
   </div>
-
-
 </template>
 
 <script>
@@ -58,9 +44,8 @@
         }
       };
       return {
-
-        loginForm: {
-          username: '',
+        ruleForm: {
+          account: '',
           password: '',
         },
         rules: {
@@ -71,7 +56,6 @@
             { required: true, message: 'Please enter password', trigger: 'blur' }
           ],
         },
-        showLogin: false,
       };
     },
     methods: {
@@ -101,7 +85,13 @@
               type: 'success'
             });
 
-            this.$router.push('/facialRecognition')
+            //用户名当参数传递给用户页
+            this.$router.push({
+              path: '/userPage/'+this.ruleForm.account,
+              params: {
+                username: this.ruleForm.account
+              }
+            })
 
           } else {
             this.$message.error('登录失败');
@@ -134,7 +124,7 @@
               type: 'success'
             });
 
-            this.$router.push('/facialRecognition')
+            this.$router.push('/userPage')
 
           } else {
             this.$message.error('登录失败');
@@ -149,10 +139,8 @@
   }
 </script>
 
-<style lang="less" scoped>
-  @import '../style/mixin';
-
-  .login_page{
+<style scoped>
+  .login-info{
     /*background-color: #e5e8ec;*/
     /*padding: 2% 5% 0% 2%;*/
     width:300px;
@@ -163,21 +151,6 @@
     width: 100%;
     top: -100px;
     left: 0;
-  }
-
-  .form_contianer{
-    .wh(320px, 210px);
-    .ctp(320px, 210px);
-    padding: 25px;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #fff;
-    .submit_btn{
-      width: 100%;
-      font-size: 16px;
-      background-color: #ffffff;
-      color: #555555;
-    }
   }
   .container {
 
