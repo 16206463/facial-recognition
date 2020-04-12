@@ -1,16 +1,19 @@
 <template>
   <div class="hello">
-    <h1>{{ adata }}</h1>
-    <h2>hello   {{ username}} , this is exam page , dont leave when you exam since you're under monitor</h2>
-    <input accept="image/*" name="img" id="upload_file" type="file">
+    <h1>exam page</h1>
+    <h2>hello   {{ username}} , this is exam page , dont leave this page when you are examming</h2>
 
-    <div class="btn">
-      <el-button type="primary" round @click="sendpic">{{ recogText }}</el-button>
-    </div>
 
-<!--    <div>-->
-<!--      <el-button @click="recog" class='To' type="primary" >跳转</el-button>-->
+<!--    <input accept="image/*" name="img" id="upload_file" type="file">-->
+<!--    <div class="btn">-->
+<!--      <el-button type="primary" round @click="sendpic">{{ recogText }}</el-button>-->
 <!--    </div>-->
+    <el-input
+      type="textarea"
+      :rows="5"
+      placeholder="请输入内容"
+      v-model="textarea">
+    </el-input>
 
     <div class="block">
       <p> The accuracy is {{ accuracy }}</p>
@@ -55,6 +58,7 @@ export default {
       videoWidth: 100,
       imgSrc: '',
       videoHeight: 100,
+      textarea: '',
 
       adata: 0
     };

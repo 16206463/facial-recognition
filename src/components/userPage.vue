@@ -198,8 +198,8 @@
         if (index < 10000) {
           var _this = this
         var interval = setInterval(function () {
-            if(num<10){
-              index+=500;
+            if(num<100){
+              index+=100;
               num +=1;
 
               _this.$options.methods.setImage10(_this)
@@ -210,7 +210,7 @@
               alert("已提交10张照片")
               clearInterval(interval);
             }
-          }, 1000)
+          }, 100)
         }
 
       },
