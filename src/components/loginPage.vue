@@ -1,58 +1,66 @@
 <template>
-
+<!--  <div class="login-info">-->
+<!--      <el-row>-->
+<!--        <el-col >-->
+<!--          <h3 style="text-align: center;"> login page </h3>-->
+<!--          <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
+<!--            <el-form-item label="账号：" prop="account">-->
+<!--              <el-input  v-model="ruleForm.account" autocomplete="off" clearable>-->
+<!--              </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="密码：" prop="password">-->
+<!--              <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password clearable></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item>-->
+<!--              <el-button type="primary" @click="submitusrForm('ruleForm')">添加新用户并登陆</el-button>-->
+<!--              <el-button type="primary" @click="submitadForm('ruleForm')">添加新管理员并登陆</el-button>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--  </div>-->
 
 
   <div class="login_page fillcontain">
-
     <transition name="form-fade" mode="in-out">
 
-      <section class="form_contianer" v-show="showLogin">
-
+      <section class="form_contianer" >
         <div class="manage_tip">
-
-          <p>Welcome</p >
-
+          <p>Welcome</p>
         </div>
-
-        <el-form :model="loginForm" :rules="rules" ref="loginForm">
-
-          <el-form-item prop="username">
-
-            <el-input v-model="loginForm.username" placeholder="User Name"><span>dsfsf</span></el-input>
+        <el-form :model="ruleForm"  :rules="rules" ref="ruleForm">
+          <el-form-item prop="account">
+            <el-input  v-model="ruleForm.account" placeholder="Account"autocomplete="off" clearable>
+            </el-input>
 
           </el-form-item>
 
           <el-form-item prop="password">
 
-            <el-input type="password" placeholder="Password" v-model="loginForm.password"></el-input>
+            <el-input type="password" v-model="ruleForm.password" placeholder="Password" autocomplete="off" show-password clearable></el-input>
 
           </el-form-item>
 
           <el-form-item>
 
-            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Log in</el-button>
+            <el-button round type="primary" @click="submitusrForm('ruleForm')" class="submit_btn">Log in</el-button>
 
           </el-form-item>
 
           <el-form-item>
 
-            <el-button round @click="submitForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
+            <el-button round type="primary" @click="submitadForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
 
           </el-form-item>
 
         </el-form>
 
-        <p class="tip">Automatic registration of new users.</p >
-
-        <p class="tip">Registered users log in with user name and password.</p >
+        <p class="tip">Automatic registration of new users.</p>
+        <p class="tip">Registered users log in with user name and password.</p>
 
       </section>
-
     </transition>
-
   </div>
-
-
 </template>
 
 
@@ -97,9 +105,8 @@
 
       return {
 
-        loginForm: {
-
-          username: '',
+        ruleForm: {
+          account: '',
 
           password: '',
 
@@ -120,7 +127,6 @@
           ],
 
         },
-        showLogin: true,
 
       };
     },
@@ -151,7 +157,13 @@
               type: 'success'
             });
 
-            this.$router.push('/facialRecognition')
+            //用户名当参数传递给用户页
+            this.$router.push({
+              path: '/userPage/'+this.ruleForm.account,
+              params: {
+                username: this.ruleForm.account
+              }
+            })
 
           } else {
             this.$message.error('登录失败');
@@ -184,7 +196,7 @@
               type: 'success'
             });
 
-            this.$router.push('/facialRecognition')
+            this.$router.push('/userPage')
 
           } else {
             this.$message.error('登录失败');
@@ -201,55 +213,55 @@
 
 
 <style lang="less" scoped>
+
   @import '../style/mixin';
   .login_page{
-    width: 100%;
-    height: 100%;
-    background: #c5f1fc;
+
+
   }
+
   .manage_tip{
     position: absolute;
     width: 100%;
     top: -100px;
     left: 0;
+    font-size: 35px;
+
   }
 
-  .form_contianer{
-    .wh(320px, 210px);
-    .ctp(320px, 210px);
-    padding: 25px;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #fff;
-    .submit_btn{
-      width: 100%;
-      font-size: 16px;
-    }
-  }
   .container {
-
     height:100%;width:100%;
-    /*width: 100%;*/
     border: 1px solid green;
     position:fixed;
-
   }
+
   .form_contianer{
-    .wh(320px, 210px);
+    .wh(320px, 280px);
     .ctp(320px, 210px);
     padding: 25px;
-    border-radius: 5px;
+    border-radius: 15px;
     text-align: center;
-    background-color: #fff;
+    background-color: #545c64;
     .submit_btn{
       width: 100%;
       font-size: 16px;
     }
-
   }
+
   .tip{
     font-size: 12px;
-    color: #023845;
+    color: #fff;
+  }
+
+
+  .form-fade-enter-active, .form-fade-leave-active {
+    transition: all 1s;
+
+  }
+
+  .form-fade-enter, .form-fade-leave-active {
+    transform: translate3d(0, -50px, 0);
+    opacity: 0;
   }
 
   .form-fade-enter-active, .form-fade-leave-active {

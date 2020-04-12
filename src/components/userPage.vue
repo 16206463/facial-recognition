@@ -1,8 +1,7 @@
 <template>
 	<div>
 		<h1>user Page</h1>
-		<h2>{{ $route.params.userId }}</h2>
-    <h3>{{ message }}</h3>
+    <h3>welcome  {{ username }}, now we need you to submit 10 pictures, please open your camera!!!!</h3>
 
     <button @click='deleteuser' >{{ deleteUserText }}</button>
 
@@ -18,7 +17,11 @@
         <button @click="stopNavigator"> {{ CloseTheCameraText }} </button>
         <button @click="handleUpdata"> {{ uploadText }} </button>
 
-        <button @click="train"> {{ ToExamPageText }} </button>
+        <button @click="train" v-if="Aftersubmit"> {{ ToExamPageText }} </button>
+
+        <button @click="train" > {{ ToExamPageText }} </button>
+
+        <button @click="threat">线程</button>
 
       </div>
 
@@ -37,7 +40,7 @@
 		name: 'userPage',
     data(){
       return{
-        message: '',
+        username: '',
         videoWidth: 540,
         videoHeight: 410,
         imgSrc: '',
@@ -50,7 +53,8 @@
         uploadText: 'upload',
         ToExamPageText: 'To Exam Page',
         deleteUserText: 'delete user',
-        num: 0
+        num: 0,
+        Aftersubmit: false
       }
     },
 
@@ -102,21 +106,45 @@
         _this.imgSrc = image
         this.$emit('refreshDataList', this.imgSrc)
 
-        // var index = 0;
-        //
-        // if (index < 100) {
-        //   setTimeout(function () {
-        //     index++;
-        //
-        //
-        //
-        //
-        //
-        //
-        //     console.log(index);
-        //   }, 5000)
-        // }
-        // setImage();
+      },
+
+      setImage10 (vueself) {
+
+        // 点击，canvas画图
+        vueself.thisContext.drawImage(vueself.thisVideo, 0, 0, vueself.videoWidth, vueself.videoHeight)
+        // 获取图片base64链接
+        var image = vueself.thisCancas.toDataURL('image/png')
+        vueself.imgSrc = image
+        vueself.$emit('refreshDataList', vueself.imgSrc)
+
+
+        if (vueself.imgSrc!==''){
+          let file = vueself.imgSrc; // 把整个base64给file
+          let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
+          let time=(new Date()).valueOf();//生成时间戳
+          let name = vueself.num + ".jpg"; // 定义文件名字
+          vueself.num += 1
+          let conversions = vueself.dataURLtoFile(file, name); // 调用base64转图片方法
+          let parms=new FormData();
+          parms.append('face',conversions,name);
+          parms.append('username',vueself.username);   // 谁的10张照片
+          axios({
+            url: '/dashboard/set',
+            data: parms,
+            method: 'POST',
+            // config
+          }).then(res=>{
+            console.log(res);
+            vueself.ImgFile=res.data;
+          }).catch(err=>{
+            vueself.$notify.error({
+              title: '上传失败',
+              message: err.msg
+            });
+          })
+        }
+
+        vueself.Aftersubmit = true
       },
 
 
@@ -142,7 +170,7 @@
           let conversions = this.dataURLtoFile(file, name); // 调用base64转图片方法
           let parms=new FormData();
           parms.append('face',conversions,name);
-          parms.append('username','abey');   // 谁的10张照片
+          parms.append('username',this.username);   // 谁的10张照片
           axios({
             url: '/dashboard/set',
             data: parms,
@@ -160,9 +188,36 @@
         }
       },
 
+      count() {
+        console.log(1)
+      },
+
+      threat(){
+        var index = 0;
+        var num = 0
+        if (index < 10000) {
+          var _this = this
+        var interval = setInterval(function () {
+            if(num<100){
+              index+=100;
+              num +=1;
+
+              _this.$options.methods.setImage10(_this)
+
+
+              console.log(index + "这是第 "+num);
+            }else{
+              alert("已提交10张照片")
+              clearInterval(interval);
+            }
+          }, 100)
+        }
+
+      },
+
       train(){
         var parms=new FormData();
-        parms.append('username','abey'); //train value 训练模型名字
+        parms.append('username',this.username); //train value 训练模型名字
         axios({
           url: '/dashboard/train',
           data: parms,
@@ -171,17 +226,30 @@
           console.log(res);
         }).catch(err=>{
           console.info("err")
-        })
+        });
 
-        this.$router.push('/facialRecognition')
+        this.$router.push(
+          {
+            name: 'facialRecognition',
+            params: {
+              username: this.username,
+              data: 1
+            }
+          });
+
+
+
       }
+    },
+
+    beforeDestroy () {
+      this.stopNavigator()
     },
     mounted () {
       this.getCompetence()
+      this.username = this.$route.params.username
+      console.log(this.username)
     },
-    beforeDestroy () {
-      this.stopNavigator()
-    }
 
 	}
 </script>
