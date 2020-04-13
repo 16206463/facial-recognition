@@ -21,7 +21,9 @@
         <el-button @click="train" type="primary" class="btn"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
 
 
+
         </el-button-group>
+
       </div>
 
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
@@ -239,9 +241,16 @@
               data: 1
             }
           });
-
-
-
+      },
+      to() {
+        this.$router.push(
+          {
+            name: 'facialRecognition',
+            params: {
+              username: 'zhang',
+              data: 1
+            }
+          })
       }
     },
 
