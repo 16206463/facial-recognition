@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <h1>exam page</h1>
-    <h2>hello   {{ username}} , this is exam page , dont leave this page when you are examming</h2>
+    <h1>Exam Page</h1>
+    <h2>Hello   {{ username}} , this is exam page , do not leave this page when you are examming.</h2>
 
 
 <!--    <input accept="image/*" name="img" id="upload_file" type="file">-->
@@ -59,7 +59,6 @@ export default {
       imgSrc: '',
       videoHeight: 100,
       textarea: '',
-
       adata: 0
     };
   },
@@ -256,6 +255,9 @@ export default {
 
 <style scoped>
 
+  h2{
+    margin: 10px;
+  }
 
 h1, h2 {
   font-weight: normal;

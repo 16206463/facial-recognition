@@ -226,6 +226,7 @@
     top: -100px;
     left: 0;
     font-size: 35px;
+    color: #1F6FB5;
 
   }
 
@@ -241,16 +242,18 @@
     padding: 25px;
     border-radius: 15px;
     text-align: center;
-    background-color: #545c64;
+    background-color: #1F6FB5;
     .submit_btn{
       width: 100%;
       font-size: 16px;
+      background-color: #9DD3FA;
+      /*color: #FCD692;*/
     }
   }
 
   .tip{
     font-size: 12px;
-    color: #fff;
+    color: #FAFFEB;
   }
 
 

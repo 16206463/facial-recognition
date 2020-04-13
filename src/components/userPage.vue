@@ -1,29 +1,31 @@
 <template>
 	<div>
-		<h1>user Page</h1>
-    <h3>welcome  {{ username }}, now we need you to submit 10 pictures, please open your camera!!!!</h3>
 
-    <button @click='deleteuser' >{{ deleteUserText }}</button>
+    <h1>User Page</h1>
+    <!--<el-button @click='deleteuser' class="delet_user">{{ deleteUserText }}</el-button>-->
 
+
+    <h3>Welcome  {{ username }} <el-button @click='deleteuser' type="danger" icon="el-icon-delete" circle size="small"></el-button> , we need to take 10 pictures, please open your camera!!!!</h3>
 
     <div class="camera_outer">
+      <div class="btns">
+        <el-button-group>
+          <el-button @click="threat" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
+        <!--<el-button @click="getCompetence" type="primary"> {{OpenTheCameraText}} </el-button>-->
+        <el-button @click="setImage" type="primary" class="btn"> {{TakeAPictureText}} <i class="el-icon-circle-plus-outline"></i></el-button>
+        <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
+        <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>
+
+        <!--<el-button @click="train" v-if="Aftersubmit" type="primary"> {{ ToExamPageText }} </el-button>-->
+
+        <el-button @click="train" type="primary" class="btn"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
+
+
+        </el-button-group>
+      </div>
+
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
-
-
-      <div class="btns">
-        <button @click="getCompetence"> {{OpenTheCameraText}} </button>
-        <button @click="setImage"> {{TakeAPictureText}} </button>
-        <button @click="stopNavigator"> {{ CloseTheCameraText }} </button>
-        <button @click="handleUpdata"> {{ uploadText }} </button>
-
-        <button @click="train" v-if="Aftersubmit"> {{ ToExamPageText }} </button>
-
-        <button @click="train" > {{ ToExamPageText }} </button>
-
-        <button @click="threat">线程</button>
-
-      </div>
 
       <img :src="imgSrc">
 
@@ -41,18 +43,19 @@
     data(){
       return{
         username: '',
-        videoWidth: 540,
+        videoWidth: 600,
         videoHeight: 410,
         imgSrc: '',
         thisVideo: null,
         thisCancas: null,
         thisContext: null,
-        OpenTheCameraText: 'Open The Camera',
-        TakeAPictureText: 'Take A Picture',
-        CloseTheCameraText: 'Close The Camera',
-        uploadText: 'upload',
-        ToExamPageText: 'To Exam Page',
-        deleteUserText: 'delete user',
+        StartText: 'Start ',
+        // OpenTheCameraText: 'Open The Camera',
+        TakeAPictureText: 'Add Picture ',
+        // CloseTheCameraText: 'Close The Camera',
+        uploadText: 'Upload ',
+        ToExamPageText: 'Exam Page ',
+        // deleteUserText: 'delete user',
         num: 0,
         Aftersubmit: false
       }
@@ -266,12 +269,30 @@
     -webkit-transform:scaleX(-1);
     -o-transform:scaleX(-1);
     transform:scaleX(-1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    margin-top: 50px;
+    margin-right: 20px;
+    background-color: #9DD3FA;
   }
 
   img{
-    width: 100%;
-    height: 100%;
+    width: 600px;
+    height: 410px;
+    margin-left: 20px;
+    background-color: #9DD3FA;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   }
+
+
+  h3{
+    margin: 10px;
+  }
+
+
+  .btn{
+    background-color: #1F6FB5;
+  }
+
 
 
 </style>
