@@ -23,6 +23,8 @@
 
         <button @click="threat">线程</button>
 
+        <button @click="to">跳转</button>
+
       </div>
 
       <img :src="imgSrc">
@@ -236,9 +238,16 @@
               data: 1
             }
           });
-
-
-
+      },
+      to() {
+        this.$router.push(
+          {
+            name: 'facialRecognition',
+            params: {
+              username: 'zhang',
+              data: 1
+            }
+          })
       }
     },
 

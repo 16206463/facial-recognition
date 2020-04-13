@@ -55,9 +55,9 @@ export default {
       recogText: 'recog',
       username: '',
       accuracy: '',
-      videoWidth: 100,
+      videoWidth: 500,
       imgSrc: '',
-      videoHeight: 100,
+      videoHeight: 500,
       textarea: '',
 
       adata: 0
@@ -102,7 +102,7 @@ export default {
         var _this = this
         var interval = setInterval(function () {
           if(num<50){
-            index+=20000;
+            index+=5000;
             num +=1;
             _this.$options.methods.RecogAuto(_this)
 
@@ -110,7 +110,7 @@ export default {
           }else{
             clearInterval(interval);
           }
-        }, 20000)
+        }, 5000)
       }
 
     },
