@@ -1,27 +1,12 @@
 <template>
-<!--  <div class="login-info">-->
-<!--      <el-row>-->
-<!--        <el-col >-->
-<!--          <h3 style="text-align: center;"> login page </h3>-->
-<!--          <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
-<!--            <el-form-item label="账号：" prop="account">-->
-<!--              <el-input  v-model="ruleForm.account" autocomplete="off" clearable>-->
-<!--              </el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="密码：" prop="password">-->
-<!--              <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password clearable></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button type="primary" @click="submitusrForm('ruleForm')">添加新用户并登陆</el-button>-->
-<!--              <el-button type="primary" @click="submitadForm('ruleForm')">添加新管理员并登陆</el-button>-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </el-col>-->
-<!--      </el-row>-->
-<!--  </div>-->
 
 
   <div class="login_page fillcontain">
+
+    <div>
+     <button @clcik="to">to</button>
+    </div>
+
     <transition name="form-fade" mode="in-out">
 
       <section class="form_contianer" >
@@ -206,7 +191,26 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      to() {
+
+        console.log('to')
+        this.$router.push(
+          {
+            name: 'facialRecognition',
+            params: {
+              username: 'cvb',
+              data: 1
+            }
+          })
       }
+    },
+
+    mounted() {
+      document.querySelector('body').setAttribute('style', 'background-color:#Ffffff')
+    },
+    beforeDestroy() {
+      document.querySelector('body').removeAttribute('style')
     }
   }
 </script>
@@ -216,7 +220,6 @@
 
   @import '../style/mixin';
   .login_page{
-
 
   }
 

@@ -5,7 +5,7 @@
     <!--<el-button @click='deleteuser' class="delet_user">{{ deleteUserText }}</el-button>-->
 
 
-    <h3>Welcome  {{ username }} <el-button @click='deleteuser' type="danger" icon="el-icon-delete" circle size="small"></el-button> , we need to take 10 pictures, please open your camera!!!!</h3>
+    <h3>Welcome  {{ username }} <el-button @click='deleteuser' type="danger" icon="el-icon-delete" circle size="small"></el-button> , you need to take 100 pictures, please open your camera!!!!</h3>
 
     <div class="camera_outer">
       <div class="btns">
@@ -16,10 +16,10 @@
         <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
         <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>
 
-        <!--<el-button @click="train" v-if="Aftersubmit" type="primary"> {{ ToExamPageText }} </el-button>-->
+        <el-button @click="to" type="primary"> to </el-button>
 
         <el-button @click="train" type="primary" class="btn"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
-
+        <el-button @click="check" type="primary" class="btn"> check </el-button>
 
 
         </el-button-group>
@@ -164,6 +164,18 @@
         }
         return new File([u8arr], filename, { type: mime })
       },
+      check(){
+        let param =new FormData();
+        param.append('username',this.username)
+        axios({
+          url:'dashboard/check',
+          method: 'post',
+          data: param
+        }).then(res=>{
+          console.log(res);
+        })
+
+      },
 
       handleUpdata(){//已form提交
         if (this.imgSrc!==''){
@@ -212,7 +224,7 @@
 
               console.log(index + "这是第 "+num);
             }else{
-              alert("已提交10张照片")
+              alert("you have submitted 100 pictures")
               clearInterval(interval);
             }
           }, 100)
@@ -247,7 +259,7 @@
           {
             name: 'facialRecognition',
             params: {
-              username: 'zhang',
+              username: 'cvb',
               data: 1
             }
           })

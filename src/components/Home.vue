@@ -3,36 +3,50 @@
     <h1>Exam Page</h1>
     <h2>Hello   {{ username}} , this is exam page , do not leave this page when you are examming.</h2>
 
-
-<!--    <input accept="image/*" name="img" id="upload_file" type="file">-->
-<!--    <div class="btn">-->
-<!--      <el-button type="primary" round @click="sendpic">{{ recogText }}</el-button>-->
-<!--    </div>-->
-    <el-input
-      type="textarea"
-      :rows="5"
-      placeholder="请输入内容"
-      v-model="textarea">
-    </el-input>
-
     <div class="block">
       <p> The accuracy is {{ accuracy }}</p>
     </div>
 
-
     <div class="camera_outer">
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
-<!--      <img :src="imgSrc" width="100px" height="100px">-->
     </div>
-
-
     <div>
       <button @click="threat">  开始考试 </button>
+    </div>
+
+    <div>
+      <text :value="code"></text>
+
+      <codemirror ref="myCm"
+                  :value="code"
+                  :options="cmOptions"
+                  @ready="onCmReady"
+                  @focus="onCmFocus"
+                  @input="onCmCodeChange"
+      class="code">
+      </codemirror>
+
+<!--      <textarea ref="myCm"-->
+<!--                  :value="code"-->
+<!--                  :options="cmOptions"-->
+<!--                  @ready="onCmReady"-->
+<!--                  @focus="onCmFocus"-->
+<!--                  @input="onCmCodeChange"-->
+<!--                  class="code">-->
+<!--      </textarea>-->
+
+
+      <el-button round type="primary" @click="Submit">  运行  </el-button>
+
+      <div class="resultShow">
+        <p>  The result is : </p>
+        <textarea :value="result"></textarea>
+      </div>
 
     </div>
 
-<!--    <img :src="imgSrc" width="100px" height="100px">-->
+
 
   </div>
 
@@ -40,6 +54,26 @@
 
 <script>
   import axios from "axios";
+
+  import { codemirror } from 'vue-codemirror'
+  require("codemirror/mode/python/python.js")
+
+
+  // import "codemirror/theme/ambiance.css";
+  // import "codemirror/lib/codemirror.css";
+  // import "codemirror/addon/hint/show-hint.css";
+  //
+  // let CodeMirror = require("codemirror/lib/codemirror");
+  //
+  // require("codemirror/mode/python/python.js")
+  require("codemirror/addon/edit/matchbrackets");
+  require("codemirror/addon/selection/active-line");
+  require("codemirror/addon/hint/show-hint");
+
+
+  import Edit from './edit'
+  import Running from './running'
+
 export default {
 
 
@@ -59,10 +93,45 @@ export default {
       imgSrc: '',
       videoHeight: 500,
       textarea: '',
-      adata: 0
+      adata: 0,
+      code: '',
+      curCode:'',
+      result:'',
+      cmOptions:{
+        tabSize: 4,
+        mode: 'text/x-python',
+        lineNumbers: true,
+        line: true,
+        indentWithTabs: true,
+        smartIndent: true,
+        extraKeys: {'Ctrl': 'autocomplete'},//自定义快捷键
+
+        indentUnit: 4, // 智能缩进单位为4个空格长度
+        lineWrapping: true, //
+        // // 在行槽中添加行号显示器、折叠器、语法检测器
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+        foldGutter: true, // 启用行槽中的代码折叠
+        autofocus: true, // 自动聚焦
+        matchBrackets: true, // 匹配结束符号，比如"]、}"
+        autoCloseBrackets: true, // 自动闭合符号
+        styleActiveLine: true,
+      }
     };
   },
+  components: {
+    codemirror,
+  },
   methods: {
+    onCmReady(cm) {
+      console.log('the editor is readied!', cm)
+    },
+    onCmFocus(cm) {
+      console.log('the editor is focus!', cm)
+    },
+    onCmCodeChange(newCode) {
+      console.log('this is new code', newCode)
+      this.code = newCode
+    },
 
     gotolink(){
       //点击跳转至上次浏览页面
@@ -93,7 +162,6 @@ export default {
     //每隔20秒拍照  上传到后端识别
     threat(){
       console.log('开始i 考试')
-
 
       var index = 0;
       var num = 0
@@ -238,6 +306,28 @@ export default {
       }).then(res => {
 
       })
+    },
+    running () {
+      this.$refs.run.reset()
+      this.$refs.run.buildDom()
+    },
+
+    Submit(){
+
+      console.log(this.code)
+      var params = new FormData();// 创建form对象
+      params.append('code', this.code.toString());
+      axios({
+        url: '/dashboard/ide',
+        method: 'POST',
+        data: params
+      }).then(res => {
+        console.log(res);
+        this.result = res.data
+      })
+
+
+
     }
 
   },
@@ -248,7 +338,16 @@ export default {
     this.username = this.$route.params.username
     this.adata = this.$route.params.data
     console.log(this.adata)
+
+    console.log('this is current codemirror object', this.codemirror)
+
   },
+
+  computed: {
+    codemirror() {
+      return this.$refs.myCm.codemirror
+    }
+  }
 }
 </script>
 
@@ -273,6 +372,13 @@ h1, h2 {
 
 #upload_file {
   margin: 50px;
-
 }
+
+  .code {
+    font-size: 11pt;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  }
+  .resultShow {
+  border: 1px solid green
+  }
 </style>

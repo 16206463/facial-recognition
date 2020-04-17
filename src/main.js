@@ -7,6 +7,15 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import less from 'less'
+
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
+Vue.use(codemirror)
+
+import VueCodemirror from "vue-codemirror/src";
+import 'codemirror/lib/codemirror.css'
+Vue.use(VueCodemirror)
+
 Vue.use(less)
 Vue.config.productionTip = false
 Vue.use(ElementUI);
