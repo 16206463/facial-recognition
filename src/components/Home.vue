@@ -1,32 +1,40 @@
 <template>
   <div class="hello">
-    <h1>Exam Page</h1>
+
+      <h1>Exam Page</h1>
+
+      <div class="camera_outer">
+        <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
+        <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
+      </div>
+
+
     <h2>Hello   {{ username}} , this is exam page , do not leave this page when you are examming.</h2>
 
-    <div class="block">
-      <p> The accuracy is {{ accuracy }}</p>
-    </div>
+    <!--<div class="block">-->
+      <!--<p> The accuracy is {{ accuracy }}</p>-->
+    <!--</div>-->
 
-    <div class="camera_outer">
-      <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
-      <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
-    </div>
+
+
     <div>
-      <button @click="threat">  开始考试 </button>
+      <el-button type="primary" @click="threat">Start Exam</el-button>
     </div>
 
     <div>
-      <text :value="code"></text>
+      <el-row :gutter="60" class="txt">
+        <el-col :span="11" :offset="1">
+          <text :value="code"></text>
 
-      <codemirror ref="myCm"
-                  :value="code"
-                  :options="cmOptions"
-                  @ready="onCmReady"
-                  @focus="onCmFocus"
-                  @input="onCmCodeChange"
-      class="code">
-      </codemirror>
-
+          <codemirror ref="myCm"
+                      :value="code"
+                      :options="cmOptions"
+                      @ready="onCmReady"
+                      @focus="onCmFocus"
+                      @input="onCmCodeChange"
+          class="code">
+          </codemirror>
+        </el-col>
 <!--      <textarea ref="myCm"-->
 <!--                  :value="code"-->
 <!--                  :options="cmOptions"-->
@@ -35,14 +43,17 @@
 <!--                  @input="onCmCodeChange"-->
 <!--                  class="code">-->
 <!--      </textarea>-->
+        <el-col :span="11">
+          <div class="resultShow">
+            <p>  The result is : </p>
+            <textarea :value="result"></textarea>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-button round type="primary" @click="Submit">  Run  </el-button>
 
 
-      <el-button round type="primary" @click="Submit">  运行  </el-button>
-
-      <div class="resultShow">
-        <p>  The result is : </p>
-        <textarea :value="result"></textarea>
-      </div>
 
     </div>
 
@@ -89,9 +100,9 @@ export default {
       recogText: 'recog',
       username: '',
       accuracy: '',
-      videoWidth: 500,
+      videoWidth: 180,
       imgSrc: '',
-      videoHeight: 500,
+      videoHeight: 150,
       textarea: '',
       adata: 0,
       code: '',
@@ -355,7 +366,8 @@ export default {
 <style scoped>
 
   h2{
-    margin: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
   }
 
 h1, h2 {
@@ -377,8 +389,25 @@ h1, h2 {
   .code {
     font-size: 11pt;
     font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    /*width: 45%;*/
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    height: 500px;
   }
   .resultShow {
-  border: 1px solid green
+  /*border: 1px solid green;*/
+    /*width: 45%;*/
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    height: 500px;
   }
+
+  .txt{
+    margin: 20px;
+  }
+
+  .camera_outer{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
 </style>

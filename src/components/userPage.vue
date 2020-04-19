@@ -16,7 +16,7 @@
         <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
         <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>
 
-        <el-button @click="to" type="primary"> to </el-button>
+        <el-button @click="to" type="primary" class="btn"> to </el-button>
 
         <el-button @click="train" type="primary" class="btn"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
         <el-button @click="check" type="primary" class="btn"> check </el-button>
