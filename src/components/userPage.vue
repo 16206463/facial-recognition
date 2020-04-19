@@ -10,16 +10,16 @@
     <div class="camera_outer">
       <div class="btns">
         <el-button-group>
-          <el-button @click="threat" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
+          <el-button @click="thread" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
         <!--<el-button @click="getCompetence" type="primary"> {{OpenTheCameraText}} </el-button>-->
         <el-button @click="setImage" type="primary" class="btn"> {{TakeAPictureText}} <i class="el-icon-circle-plus-outline"></i></el-button>
         <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
         <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>
 
-        <el-button @click="to" type="primary"> to </el-button>
+<!--        <el-button @click="to" type="primary"> to </el-button>-->
 
-        <el-button @click="train" type="primary" class="btn"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
-        <el-button @click="check" type="primary" class="btn"> check </el-button>
+        <el-button @click="train" type="primary" class="btn" v-if="Aftersubmit"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
+<!--        <el-button @click="check" type="primary" class="btn"> check </el-button>-->
 
 
         </el-button-group>
@@ -39,6 +39,7 @@
 
 <script type="text/javascript">
   import axios from 'axios';
+  import { Loading } from 'element-ui';
 
 	export default{
 		name: 'userPage',
@@ -59,7 +60,8 @@
         ToExamPageText: 'Exam Page ',
         // deleteUserText: 'delete user',
         num: 0,
-        Aftersubmit: false
+        Aftersubmit: false,
+        loading: true
       }
     },
 
@@ -115,6 +117,8 @@
 
       setImage10 (vueself) {
 
+        // let loadingInstance2 = Loading.service({ fullscreen: true });
+
         // 点击，canvas画图
         vueself.thisContext.drawImage(vueself.thisVideo, 0, 0, vueself.videoWidth, vueself.videoHeight)
         // 获取图片base64链接
@@ -141,6 +145,13 @@
           }).then(res=>{
             console.log(res);
             vueself.ImgFile=res.data;
+            if(res.data == 100){
+              vueself.Aftersubmit = true
+
+              // this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+              //   loadingInstance2.close();
+              // });
+            }
           }).catch(err=>{
             vueself.$notify.error({
               title: '上传失败',
@@ -149,7 +160,7 @@
           })
         }
 
-        vueself.Aftersubmit = true
+
       },
 
 
@@ -209,7 +220,10 @@
         console.log(1)
       },
 
-      threat(){
+      thread(){
+
+        this.$message('Please look around');
+
         var index = 0;
         var num = 0
         if (index < 10000) {
@@ -233,26 +247,54 @@
       },
 
       train(){
-        var parms=new FormData();
-        parms.append('username',this.username); //train value 训练模型名字
-        axios({
-          url: '/dashboard/train',
-          data: parms,
-          method: 'POST'
-        }).then(res=>{
-          console.log(res);
-        }).catch(err=>{
-          console.info("err")
-        });
+        let loadingInstance = Loading.service({ fullscreen: true });
 
-        this.$router.push(
-          {
-            name: 'facialRecognition',
-            params: {
-              username: this.username,
-              data: 1
-            }
-          });
+        let param =new FormData();
+        param.append('username',this.username)
+        axios({
+          url:'dashboard/check',
+          method: 'post',
+          data: param
+        }).then(res=>{
+
+
+          console.log(res)
+          if(res.data == 100){
+            var parms=new FormData();
+            parms.append('username',this.username); //train value 训练模型名字
+            axios({
+              url: '/dashboard/train',
+              data: parms,
+              method: 'POST'
+            }).then(res=>{
+              console.log(res)
+              if(res.data == "train successfully"){
+
+                this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+                  loadingInstance.close();
+                });
+
+                this.$router.push(
+                  {
+                    name: 'facialRecognition',
+                    params: {
+                      username: this.username,
+                      data: 1
+                    }
+                  });
+              }
+            }).catch(err=>{
+              console.info("err")
+            });
+          }
+          else{
+            this.num = 0
+            alert('there are some invalid pictures exist, please Re-upload pictures!!! ')
+            this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+              loadingInstance.close();
+            });
+          }
+        })
       },
       to() {
         this.$router.push(

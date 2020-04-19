@@ -3,9 +3,6 @@
 
   <div class="login_page fillcontain">
 
-    <div>
-     <button @clcik="to">to</button>
-    </div>
 
     <transition name="form-fade" mode="in-out">
 

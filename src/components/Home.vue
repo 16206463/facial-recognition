@@ -12,10 +12,10 @@
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
     </div>
     <div>
-      <button @click="threat">  开始考试 </button>
+      <button @click="thread">  开始考试 </button>
     </div>
 
-    <div>
+    <div  v-if="test">
       <text :value="code"></text>
 
       <codemirror ref="myCm"
@@ -24,6 +24,7 @@
                   @ready="onCmReady"
                   @focus="onCmFocus"
                   @input="onCmCodeChange"
+
       class="code">
       </codemirror>
 
@@ -37,10 +38,10 @@
 <!--      </textarea>-->
 
 
-      <el-button round type="primary" @click="Submit">  运行  </el-button>
+      <el-button round type="primary" @click="Submit">  test  </el-button>
 
       <div class="resultShow">
-        <p>  The result is : </p>
+        <p>  Console : </p>
         <textarea :value="result"></textarea>
       </div>
 
@@ -94,6 +95,7 @@ export default {
       videoHeight: 500,
       textarea: '',
       adata: 0,
+      test: false,
       code: '',
       curCode:'',
       result:'',
@@ -160,8 +162,12 @@ export default {
     },
 
     //每隔20秒拍照  上传到后端识别
-    threat(){
+    thread(){
       console.log('开始i 考试')
+
+      if(this.test == false){
+        this.test = true
+      }
 
       var index = 0;
       var num = 0
@@ -326,8 +332,6 @@ export default {
         this.result = res.data
       })
 
-
-
     }
 
   },
@@ -343,11 +347,11 @@ export default {
 
   },
 
-  computed: {
-    codemirror() {
-      return this.$refs.myCm.codemirror
-    }
-  }
+  // computed: {
+  //   codemirror() {
+  //     return this.$refs.myCm.codemirror
+  //   }
+  // }
 }
 </script>
 
