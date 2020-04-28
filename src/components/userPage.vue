@@ -12,11 +12,11 @@
         <el-button-group>
           <el-button @click="thread" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
         <!--<el-button @click="getCompetence" type="primary"> {{OpenTheCameraText}} </el-button>-->
-        <el-button @click="setImage" type="primary" class="btn"> {{TakeAPictureText}} <i class="el-icon-circle-plus-outline"></i></el-button>
+<!--        <el-button @click="setImage" type="primary" class="btn"> {{TakeAPictureText}} <i class="el-icon-circle-plus-outline"></i></el-button>-->
         <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
-        <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>
+<!--        <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>-->
 
-<!--        <el-button @click="to" type="primary"> to </el-button>-->
+        <el-button @click="to" type="primary"> to </el-button>
 
         <el-button @click="train" type="primary" class="btn" v-if="Aftersubmit"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
 <!--        <el-button @click="check" type="primary" class="btn"> check </el-button>-->
@@ -112,7 +112,44 @@
         var image = this.thisCancas.toDataURL('image/png')
         _this.imgSrc = image
         this.$emit('refreshDataList', this.imgSrc)
-
+      },
+      dataURLtoFile (dataurl, filename) {
+        var arr = dataurl.split(',')
+        var mime = arr[0].match(/:(.*?);/)[1]
+        var bstr = atob(arr[1])
+        var n = bstr.length
+        var u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new File([u8arr], filename, { type: mime })
+      },
+      handleUpdata(){//已form提交
+        if (this.imgSrc!==''){
+          let file = this.imgSrc; // 把整个base64给file
+          let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
+          let time=(new Date()).valueOf();//生成时间戳
+          let name = this.num + ".jpg"; // 定义文件名字
+          this.num += 1
+          let conversions = this.dataURLtoFile(file, name); // 调用base64转图片方法
+          let parms=new FormData();
+          parms.append('face',conversions,name);
+          parms.append('username',this.username);   // 谁的10张照片
+          axios({
+            url: '/dashboard/set',
+            data: parms,
+            method: 'POST',
+            // config
+          }).then(res=>{
+            console.log(res);
+            this.ImgFile=res.data;
+          }).catch(err=>{
+            this.$notify.error({
+              title: '上传失败',
+              message: err.msg
+            });
+          })
+        }
       },
 
       setImage10 (vueself) {
@@ -163,18 +200,6 @@
 
       },
 
-
-      dataURLtoFile (dataurl, filename) {
-        var arr = dataurl.split(',')
-        var mime = arr[0].match(/:(.*?);/)[1]
-        var bstr = atob(arr[1])
-        var n = bstr.length
-        var u8arr = new Uint8Array(n)
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n)
-        }
-        return new File([u8arr], filename, { type: mime })
-      },
       check(){
         let param =new FormData();
         param.append('username',this.username)
@@ -186,38 +211,6 @@
           console.log(res);
         })
 
-      },
-
-      handleUpdata(){//已form提交
-        if (this.imgSrc!==''){
-          let file = this.imgSrc; // 把整个base64给file
-          let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
-          let time=(new Date()).valueOf();//生成时间戳
-          let name = this.num + ".jpg"; // 定义文件名字
-          this.num += 1
-          let conversions = this.dataURLtoFile(file, name); // 调用base64转图片方法
-          let parms=new FormData();
-          parms.append('face',conversions,name);
-          parms.append('username',this.username);   // 谁的10张照片
-          axios({
-            url: '/dashboard/set',
-            data: parms,
-            method: 'POST',
-            // config
-          }).then(res=>{
-            console.log(res);
-            this.ImgFile=res.data;
-          }).catch(err=>{
-            this.$notify.error({
-              title: '上传失败',
-              message: err.msg
-            });
-          })
-        }
-      },
-
-      count() {
-        console.log(1)
       },
 
       thread(){
@@ -276,9 +269,9 @@
 
                 this.$router.push(
                   {
-                    name: 'facialRecognition',
+                    name: 'question',
                     params: {
-                      username: this.username,
+                      studentID: this.username,
                       data: 1
                     }
                   });
@@ -299,9 +292,9 @@
       to() {
         this.$router.push(
           {
-            name: 'facialRecognition',
+            name: 'question',
             params: {
-              username: 'cvb',
+              studentID: '16206455',
               data: 1
             }
           })

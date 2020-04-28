@@ -12,34 +12,20 @@
         </div>
         <el-form :model="ruleForm"  :rules="rules" ref="ruleForm">
           <el-form-item prop="account">
-            <el-input  v-model="ruleForm.account" placeholder="StudentID"autocomplete="off" clearable>
+            <el-input  v-model="ruleForm.account" placeholder="name"autocomplete="off" clearable>
             </el-input>
-
           </el-form-item>
 
           <el-form-item prop="password">
-
             <el-input type="password" v-model="ruleForm.password" placeholder="Password" autocomplete="off" show-password clearable></el-input>
+          </el-form-item>
 
+          <el-form-item prop="studentID">
+            <el-input  v-model="ruleForm.studentID" placeholder="studentID"  clearable></el-input>
           </el-form-item>
 
           <el-form-item>
-
-            <el-button round type="primary" @click="submitusrForm('ruleForm')" class="submit_btn">Log in</el-button>
-
-          </el-form-item>
-
-
-          <el-form-item>
-
-            <el-button round type="primary" @click="submitadForm('ruleForm')" class="submit_btn">Admin Log in</el-button>
-
-          </el-form-item>
-
-          <el-form-item>
-
-            <el-button round type="primary" @click="To" class="submit_btn">register</el-button>
-
+            <el-button round type="primary" @click="registerusrForm('ruleForm')" class="submit_btn">Register and Log in</el-button>
           </el-form-item>
 
         </el-form>
@@ -60,7 +46,7 @@
 
   export default {
 
-    name: 'login',
+    name: 'register',
 
     data() {
 
@@ -99,6 +85,8 @@
 
           password: '',
 
+          studentID: ''
+
         },
 
         rules: {
@@ -115,103 +103,56 @@
 
           ],
 
+          studentID: [
+
+            { required: true, message: 'Please enter studentID', trigger: 'blur' }
+
+          ],
         },
 
       };
     },
     methods: {
-      submitusrForm(formName) {
+      registerusrForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
             var params = new URLSearchParams();
-
-            params.append('admin', '0');
+            params.append('student_number', this.ruleForm.studentID); //你要传给后台的参数值 key/value
             params.append('username', this.ruleForm.account);
             params.append('password', this.ruleForm.password);
 
             axios({
-              url: '/dashboard/login',
+              url: '/dashboard/add_user',
               data: params,
               method: 'POST'
             })
               .then( (response) => {
                 console.log(response);
 
-                if(response.data == "Login successfully"){
                   this.$message({
-                    message: '登陆成功',
+                    message: '注册成功',
                     type: 'success'
                   });
 
                   //用户名当参数传递给用户页
                   this.$router.push({
-                    path: '/userPage/'+this.ruleForm.account,
+                    path: '/userPage/'+this.ruleForm.studentID,
                     params: {
-                      studentID: this.ruleForm.account
+                      studentID: this.ruleForm.studentID
                     }
                   })
-                }else{
-                  this.$message.error('Wrong username or password');
-                }
-              })
-              .catch( (error) => {
-                console.log(error);
-              });
-
-
-
-          } else {
-            this.$message.error('登录失败');
-            return false;
-          }
-        });
-      },
-      submitadForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            var params = new URLSearchParams();
-
-            params.append('admin', '1');
-            params.append('username', this.ruleForm.account);
-            params.append('password', this.ruleForm.password);
-
-            axios({
-              url: '/dashboard/login',
-              data: params,
-              method: 'POST'
-            })
-              .then( (response) => {
-                console.log(response);
 
               })
               .catch( (error) => {
                 console.log(error);
               });
-
-            this.$message({
-              message: '登陆成功',
-              type: 'success'
-            });
-
-            this.$router.push('/admin')
-
           } else {
-            this.$message.error('登录失败');
+            this.$message.error('注册失败');
             return false;
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-      To(){
-        this.$router.push({
-          path: '/register',
-
-        })
-      }
-
 
     },
     mounted() {

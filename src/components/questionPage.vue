@@ -9,17 +9,16 @@
       </div>
 
 
-    <h2>Hello   {{ username}} , this is exam page , do not leave this page when you are examming.</h2>
+    <h2>Hello   {{ studentID }} , this is 1st exam page , do not leave this page when you are examming.</h2>
 
-    <!--<div class="block">-->
-      <!--<p> The accuracy is {{ accuracy }}</p>-->
-    <!--</div>-->
 
 
 
     <div>
-      <el-button type="primary" @click="threat">Start Exam</el-button>
+      <el-button type="primary" @click="thread">Start Exam</el-button>
     </div>
+
+    <p> {{ questionList[index] }} </p>
 
     <div>
       <el-row :gutter="60" class="txt">
@@ -35,14 +34,7 @@
           class="code">
           </codemirror>
         </el-col>
-<!--      <textarea ref="myCm"-->
-<!--                  :value="code"-->
-<!--                  :options="cmOptions"-->
-<!--                  @ready="onCmReady"-->
-<!--                  @focus="onCmFocus"-->
-<!--                  @input="onCmCodeChange"-->
-<!--                  class="code">-->
-<!--      </textarea>-->
+
         <el-col :span="11">
           <div class="resultShow">
             <p>  The result is : </p>
@@ -52,14 +44,13 @@
       </el-row>
 
       <el-button round type="primary" @click="Submit">  Run  </el-button>
+      <el-button round type="primary" @click="to" v-if="nextpageText">  next question  </el-button>
 
-      <el-button round type="primary" @click="Submit">  test  </el-button>
+      <el-button round type="primary" @click="pre" >  pre </el-button>
 
-      <div class="resultShow">
-        <p>  Console : </p>
-        <textarea :value="result"></textarea>
-      </div>
     </div>
+
+
 
 
 
@@ -74,20 +65,10 @@
   require("codemirror/mode/python/python.js")
 
 
-  // import "codemirror/theme/ambiance.css";
-  // import "codemirror/lib/codemirror.css";
-  // import "codemirror/addon/hint/show-hint.css";
-  //
-  // let CodeMirror = require("codemirror/lib/codemirror");
-  //
-  // require("codemirror/mode/python/python.js")
   require("codemirror/addon/edit/matchbrackets");
   require("codemirror/addon/selection/active-line");
   require("codemirror/addon/hint/show-hint");
 
-
-  import Edit from './edit'
-  import Running from './running'
 
 export default {
 
@@ -97,7 +78,16 @@ export default {
 
     return {
       msg: 'facial recognition',
+      questionList: [
+
+          'question1','question2','question3','question4','question5',
+
+      ],
+      index: 0,
+      nextpageText: false,
+      studentID: '',
       piclist: [],
+      quesresult: '',
       picsize: 0,
       hit: '',
       play: false,
@@ -233,7 +223,7 @@ export default {
         let conversions = vueself.dataURLtoFile(file, name); // 调用base64转图片方法
         let parms=new FormData();
         parms.append('face',conversions,name);
-        parms.append('username',vueself.username);   // 谁的10张照片
+        parms.append('username',vueself.studentID);   // 谁的10张照片
         axios({
           url: 'dashboard/rec',
           data: parms,
@@ -259,7 +249,7 @@ export default {
       var formdata1 = new FormData();// 创建form对象
 
       formdata1.append('face', file, file.name);// 通过append向form对象添加数据,可以通过append继续添加数据
-      formdata1.append('username',this.username)
+      formdata1.append('username',this.studentID)
 
       axios({
         url: 'dashboard/rec',
@@ -269,7 +259,6 @@ export default {
       }).then((response) => {
         console.log(response);
         alert("Upload Success!");
-
         this.accuracyText = response.data
       })
         .catch((error) => {
@@ -282,7 +271,7 @@ export default {
     // 查找用户
     findusr() {
       var params = new URLSearchParams();
-      params.append('username',this.username);
+      params.append('username',this.studentID);
       axios({
         url: '/dashboard/find_user',
         method: 'POST',
@@ -295,8 +284,6 @@ export default {
 
     //老接口 返回图片的url路径
     recog() {
-      // var params = new URLSearchParams();
-      // params.append('username','oii');
       axios({
         url: '/dashboard/path',
         method: 'POST'
@@ -314,24 +301,6 @@ export default {
 
     },
 
-    //删除指定用户
-    delusr() {
-      var params = new URLSearchParams();
-      params.append('username','oii');
-      axios({
-        url: '/dashboard/delete_user',
-        method: 'POST'
-        // url: 'http://123.207.32.32:8000/home/multidata'
-        // data: params
-      }).then(res => {
-
-      })
-    },
-    running () {
-      this.$refs.run.reset()
-      this.$refs.run.buildDom()
-    },
-
     Submit(){
 
       console.log(this.code)
@@ -344,28 +313,197 @@ export default {
       }).then(res => {
         console.log(res);
         this.result = res.data
+        //第一题结果比对
+        if (res.data == 'a\n' && this.index == 0){
+
+          this.quesresult == 'true'
+
+          console.log(this.quesresult)
+
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,true);
+          //加显示颜色正确结果
+        }
+        else if(res.data == 'a\n' && this.index == 1){
+
+          this.quesresult == 'true'
+
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,true);
+          //加显示颜色
+        }else if(res.data == 'a\n' && this.index == 2){
+
+          this.quesresult == 'true'
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,true);
+          //加显示颜色
+        }else if(res.data == 'a\n' && this.index == 3){
+
+          this.quesresult == 'true'
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,true);
+          //加显示颜
+        }else if(res.data == 'a\n' && this.index == 4){
+
+          this.quesresult == 'true'
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,true);
+          //加显示颜色
+        }
+        else{
+
+          this.quesresult == 'false'
+
+          console.log(' 结果错误 '+this.quesresult + '&&&&' +res.data+1)
+          this.$options.methods.setImage(this);
+          this.$options.methods.handleUpdata(this,false);
+        }
+
+        this.nextpageText = true
+      })
+
+      //
+      // this.$options.methods.setImage(this);
+      // this.$options.methods.handleUpdata(this);
+    },
+
+
+    setImage (vueself) {
+      var _this = vueself
+      // 点击，canvas画图
+      _this.thisContext.drawImage(_this.thisVideo, 0, 0, _this.videoWidth, _this.videoHeight)
+      // 获取图片base64链接
+      var image = _this.thisCancas.toDataURL('image/png')
+      _this.imgSrc = image
+      _this.$emit('refreshDataList', _this.imgSrc)
+    },
+    dataURLtoFile1 (dataurl, filename) {
+      var arr = dataurl.split(',')
+      var mime = arr[0].match(/:(.*?);/)[1]
+      var bstr = atob(arr[1])
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      return new File([u8arr], filename, { type: mime })
+    },
+    handleUpdata(vueself,boolean){//已form提交
+
+        let file = vueself.imgSrc; // 把整个base64给file
+        let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
+        let time=(new Date()).valueOf();//生成时间戳
+        let name = time + ".jpg"; // 定义文件名字
+        let conversions = vueself.dataURLtoFile1(file, name); // 调用base64转图片方法
+        let parms=new FormData();
+        parms.append('face',conversions,name);
+
+        parms.append('username',vueself.studentID);
+
+        console.log(vueself.studentID + ' !@@@@@@@! ')
+        console.log('@@@@@@@@@@@@@@@ '+ vueself.quesresult + ' $%&*(&*&^*&^%^&%$&^%$')
+        parms.append('question',vueself.index);
+
+        if(boolean === true){
+          parms.append('result','true');
+        }else{
+          parms.append('result','false');
+        }
+
+
+        axios({
+          url: '/dashboard/emotion',
+          data: parms,
+          method: 'POST',
+          // config
+        }).then(res=>{
+          console.log(res);
+          vueself.ImgFile=res.data;
+        }).catch(err=>{
+          vueself.$notify.error({
+            title: '上传失败',
+            message: err.msg
+          });
+        })
+
+    },
+    to()
+    {
+      if(this.index < 4){
+        this.index += 1
+        console.log(this.index + '$$$')
+      } else {
+
+
+        var params = new FormData();// 创建form对象
+        params.append('username', this.studentID);
+
+        axios({
+          url: '/dashboard/finish',
+          method: 'POST',
+          data: params
+
+        }).then((res) => {
+
+          console.info(res.data)
+          this.piclist = res.data
+
+        }).catch(error => {
+          console.log("付子欣你网络请求错误", error);
+        });
+
+
+        this.$router.replace({
+          path: '/finish',
+          params: {
+            studentID: this.studentID
+          },
+        })
+      }
+
+      this.nextpageText = false
+    },
+
+    pre(){
+      var params = new FormData();// 创建form对象
+      params.append('username', this.studentID);
+
+      console.log(this.studentID+ 'dddddd')
+
+      axios({
+        url: '/dashboard/finish',
+        method: 'POST',
+        data: params
+
+      }).then((res) => {
+
+        console.info(res.data)
+
+      }).catch(error => {
+        console.log("付子欣你网络请求错误", error);
+      });
+
+
+      this.$router.replace({
+        path: '/finish',
+        params: {
+          studentID: this.studentID
+        },
       })
 
     }
-
   },
 
 
   mounted () {
     this.getCompetence()
-    this.username = this.$route.params.username
-    this.adata = this.$route.params.data
-    console.log(this.adata)
+    this.studentID = this.$route.params.studentID
+    console.log(this.studentID)
 
     console.log('this is current codemirror object', this.codemirror)
 
   },
 
-  // computed: {
-  //   codemirror() {
-  //     return this.$refs.myCm.codemirror
-  //   }
-  // }
 }
 </script>
 
