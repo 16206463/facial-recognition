@@ -4,6 +4,13 @@
   <div class="login_page fillcontain">
 
 
+    <el-steps :active="1" width="80%">
+      <el-step title="步骤 1" icon="el-icon-user"></el-step>
+      <el-step title="步骤 2" icon="el-icon-upload"></el-step>
+      <el-step title="步骤 3" icon="el-icon-edit"></el-step>
+    </el-steps>
+
+
     <transition name="form-fade" mode="in-out">
 
       <section class="form_contianer" >

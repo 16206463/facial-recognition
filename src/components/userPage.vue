@@ -4,6 +4,11 @@
     <h1>User Page</h1>
     <!--<el-button @click='deleteuser' class="delet_user">{{ deleteUserText }}</el-button>-->
 
+    <el-steps :active="2">
+      <el-step title="步骤 1" icon="el-icon-user"></el-step>
+      <el-step title="步骤 2" icon="el-icon-upload"></el-step>
+      <el-step title="步骤 3" icon="el-icon-edit"></el-step>
+    </el-steps>
 
     <h3>Welcome  {{ username }} <el-button @click='deleteuser' type="danger" icon="el-icon-delete" circle size="small"></el-button> , you need to take 100 pictures, please open your camera!!!!</h3>
 

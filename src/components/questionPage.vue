@@ -3,6 +3,12 @@
 
       <h1>Exam Page</h1>
 
+    <el-steps :active="3">
+      <el-step title="步骤 1" icon="el-icon-user"></el-step>
+      <el-step title="步骤 2" icon="el-icon-upload"></el-step>
+      <el-step title="步骤 3" icon="el-icon-edit"></el-step>
+    </el-steps>
+
       <div class="camera_outer">
         <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
         <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
@@ -18,37 +24,42 @@
       <el-button type="primary" @click="thread">Start Exam</el-button>
     </div>
 
-    <p> {{ questionList[index] }} </p>
+    <div v-if="startExam">
+      <p> {{ questionList[index] }} </p>
 
-    <div>
-      <el-row :gutter="60" class="txt">
-        <el-col :span="11" :offset="1">
-          <text :value="code"></text>
+      <div>
+        <el-row :gutter="60" class="txt">
+          <el-col :span="11" :offset="1">
+            <text :value="code"></text>
 
-          <codemirror ref="myCm"
-                      :value="code"
-                      :options="cmOptions"
-                      @ready="onCmReady"
-                      @focus="onCmFocus"
-                      @input="onCmCodeChange"
-          class="code">
-          </codemirror>
-        </el-col>
+            <codemirror ref="myCm"
+                        :value="code"
+                        :options="cmOptions"
+                        @ready="onCmReady"
+                        @focus="onCmFocus"
+                        @input="onCmCodeChange"
+                        class="code">
+            </codemirror>
+          </el-col>
 
-        <el-col :span="11">
-          <div class="resultShow">
-            <p>  The result is : </p>
-            <textarea :value="result"></textarea>
-          </div>
-        </el-col>
-      </el-row>
+          <el-col :span="11">
+            <div class="resultShow">
+              <p>  The result is : </p>
+              <textarea :value="result"></textarea>
+            </div>
+          </el-col>
+        </el-row>
 
-      <el-button round type="primary" @click="Submit">  Run  </el-button>
-      <el-button round type="primary" @click="to" v-if="nextpageText">  next question  </el-button>
+        <el-button round type="primary" @click="Submit">  Run  </el-button>
+        <el-button round type="primary" @click="to" v-if="nextpageText">  next question  </el-button>
 
-      <el-button round type="primary" @click="pre" >  pre </el-button>
+        <el-button round type="primary" @click="pre" >  pre </el-button>
+
+      </div>
 
     </div>
+
+
 
 
 
@@ -517,6 +528,8 @@ export default {
     {
       if(this.index < 4){
         this.index += 1
+        this.code = ''
+        this.result = ''
         console.log(this.index + '$$$')
       } else {
 

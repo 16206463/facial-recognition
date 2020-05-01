@@ -22,6 +22,10 @@
         <el-form-item>
           <el-button type="primary" @click="all">show all</el-button>
         </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="analysis">analysis</el-button>
+        </el-form-item>
       </el-form>
     </div>
 
@@ -54,7 +58,7 @@
         label="warning_times"
         width="180">
       </el-table-column>
-   
+
       <el-table-column
         prop="warning_score"
         label="warning_score"
@@ -68,8 +72,6 @@
 
       <el-table-column
         align="right">
-
-
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -83,6 +85,69 @@
     </el-table>
   </div>
 
+  <div class="testAnalyse">
+      <el-table
+        :data="tableDataTest"
+        style="width: 100%"
+        :row-class-name="tableRowClassName">
+
+        <el-table-column
+          type="index"
+          width="50">
+        </el-table-column>
+
+        <el-table-column
+          prop="correct"
+          label="correct"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_happy"
+          label="emotion_happy"
+          width="180">
+        </el-table-column>
+
+
+        <el-table-column
+          prop="emotion_neutral"
+          label="emotion_neutral"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_angry"
+          label="emotion_angry"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_sad"
+          label="emotion_sad"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_fear"
+          label="emotion_fear"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_disgust"
+          label="emotion_disgust"
+          width="180">
+        </el-table-column>
+
+        <el-table-column
+          prop="emotion_surprise"
+          label="emotion_surprise"
+          width="180">
+        </el-table-column>
+
+
+      </el-table>
+    </div>
 
   </div>
 
@@ -107,7 +172,12 @@
         warning_score: '',
         warning_times: '',
         //
-        search: ''
+        search: '',
+
+
+        testdic: {},
+        testlist: [],
+        tableDataTest: [],
 
       }
     },
@@ -131,6 +201,29 @@
             console.log(error);
           });
       },
+      analysis(){
+
+        axios({
+          method: 'post',
+          url: '/dashboard/analysis'
+        }).then( res => {
+
+          console.log(res.data)
+
+          this.tableDataTest.length = 0
+
+          for(var each in res.data){
+
+            this.tableDataTest.push(res.data[each])
+            console.log(each)
+          }
+
+        })
+          .catch( (error) => {
+            console.log(error);
+          });
+
+      },
       tableRowClassName({row,rowIndex}) {
         if (row.warning_times >= 5 ) {
           console.log(row.warning_times)
@@ -150,16 +243,11 @@
           url: '/dashboard/student_list'
         }).then( res => {
 
+          this.tableData.length = 0
+
           this.dic = res.data
           console.log(res.data)
           for(var each in res.data){
-            // var item = {
-            //   name: this.dic[each].name,
-            //   warning_score: this.dic[each].warning_score,
-            //   warning_times: this.dic[each].warning_times,
-            //   student_number: this.dic[each].student_number
-            // }
-            // this.tableData.push(item)
             this.tableData.push(res.data[each])
             console.log(each)
           }
