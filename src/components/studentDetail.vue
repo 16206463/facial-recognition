@@ -34,7 +34,7 @@
         <!-- 图片的显示 -->
         <template   slot-scope="scope">
 <!--          <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"  min-width="70" height="70" />-->
-          <img :src="scope.row.url"  min-width="70" height="70" />
+          <el-image :src="scope.row.url"  min-width="70" height="70" fit="fill" />
         </template>
       </el-table-column>
 

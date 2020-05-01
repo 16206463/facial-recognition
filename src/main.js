@@ -27,4 +27,6 @@ new Vue({
   template: '<App/>'
 })
 
+// axios.defaults.baseURL = 'http://118.178.254.65:8000'
+
 axios.defaults.baseURL = 'http://localhost:8000'

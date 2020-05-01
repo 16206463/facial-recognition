@@ -80,7 +80,40 @@ export default {
       msg: 'facial recognition',
       questionList: [
 
-          'question1','question2','question3','question4','question5',
+        '给定一个string，请输出这个string的长度。\n' +
+        '方法名：func，参数：string，返回值：int\n' +
+        '\n' +
+        '#填入func\n' +
+        'print(func(“fzx like play game”))\n',
+
+        '给定一个list，请输出这个list的长度。\n' +
+        '方法名：func，参数：list，返回值：int\n' +
+        '\n' +
+        '#填入func\n' +
+        'print(func([1,2,3]))\n',
+
+        '给定一个dictionary，请输出这个dictionary的长度。\n' +
+        '方法名：func，参数：dictionary，返回值：int\n' +
+        '\n' +
+        '#填入func\n' +
+        'dic = {}\n' +
+        'dic[“a”] = 1\n' +
+        'dic[“b”] = 2\n' +
+        'print(func(dic))\n',
+
+        '已知一个细胞分裂成两个细胞需要一个周期，假设所有细胞不会死亡，从1个细胞分离到1024个细胞需要几个周期？\n' +
+        '方法名：func，参数：无，返回值：int\n' +
+        '\n' +
+        '#填入func\n' +
+        'print(func())\n',
+
+        '请设计一个排序算法，将list以从小到大返回。\n' +
+        '方法名：func，参数：list，返回值：list\n' +
+        '\n' +
+        '#填入func\n' +
+        'a = [5,4,3,2,1]\n' +
+        'a = func(a)\n' +
+        'print(a)\n',
 
       ],
       index: 0,
@@ -147,16 +180,61 @@ export default {
     },
 
     //前端video投影人脸
+    // getCompetence () {
+    //   var _this = this
+    //   this.thisCancas = document.getElementById('canvasCamera')
+    //   this.thisContext = this.thisCancas.getContext('2d')
+    //   this.thisVideo = document.getElementById('videoCamera')
+    //
+    //   var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
+    //
+    //   navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    //     _this.thisVideo.srcObject = stream
+    //     _this.thisVideo.onloadedmetadata = function (e) {
+    //       _this.thisVideo.play()
+    //     }
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // },
+
+
     getCompetence () {
       var _this = this
       this.thisCancas = document.getElementById('canvasCamera')
       this.thisContext = this.thisCancas.getContext('2d')
       this.thisVideo = document.getElementById('videoCamera')
-
-      var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
-
+      // 旧版本浏览器可能根本不支持mediaDevices，我们首先设置一个空对象
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {}
+      }
+      // 一些浏览器实现了部分mediaDevices，我们不能只分配一个对象
+      // 使用getUserMedia，因为它会覆盖现有的属性。
+      // 这里，如果缺少getUserMedia属性，就添加它。
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          // 首先获取现存的getUserMedia(如果存在)
+          var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.getUserMedia
+          // 有些浏览器不支持，会返回错误信息
+          // 保持接口一致
+          if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'))
+          }
+          // 否则，使用Promise将调用包装到旧的navigator.getUserMedia
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject)
+          })
+        }
+      }
+      var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight, transform: 'scaleX(-1)' } }
       navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-        _this.thisVideo.srcObject = stream
+        // 旧的浏览器可能没有srcObject
+        if ('srcObject' in _this.thisVideo) {
+          _this.thisVideo.srcObject = stream
+        } else {
+          // 避免在新的浏览器中使用它，因为它正在被弃用。
+          _this.thisVideo.src = window.URL.createObjectURL(stream)
+        }
         _this.thisVideo.onloadedmetadata = function (e) {
           _this.thisVideo.play()
         }
@@ -164,6 +242,8 @@ export default {
         console.log(err)
       })
     },
+
+
 
     //每隔20秒拍照  上传到后端识别
     thread(){
@@ -217,9 +297,15 @@ export default {
       if (vueself.imgSrc!==''){
         let file = vueself.imgSrc; // 把整个base64给file
         let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
-        let time=(new Date()).valueOf();//生成时间戳
-        let name = new Date() + ".jpg"; // 定义文件名字
+        let myDate = new Date();
 
+        let hour = myDate.getHours();
+        let minutes = myDate.getMinutes();
+        let sec =myDate.getSeconds();
+        //let time=().valueOf();//生成时间戳
+        let name = 'hh'+hour.toString()+'mm'+minutes.toString()+ 'ss' +sec.toString() + ".jpg"; // 定义文件名字
+
+        console.log(name + 'fff$$$$')
         let conversions = vueself.dataURLtoFile(file, name); // 调用base64转图片方法
         let parms=new FormData();
         parms.append('face',conversions,name);
@@ -314,7 +400,7 @@ export default {
         console.log(res);
         this.result = res.data
         //第一题结果比对
-        if (res.data == 'a\n' && this.index == 0){
+        if (res.data == '18\n' && this.index == 0){
 
           this.quesresult == 'true'
 
@@ -324,26 +410,26 @@ export default {
           this.$options.methods.handleUpdata(this,true);
           //加显示颜色正确结果
         }
-        else if(res.data == 'a\n' && this.index == 1){
+        else if(res.data == '3\n' && this.index == 1){
 
           this.quesresult == 'true'
 
           this.$options.methods.setImage(this);
           this.$options.methods.handleUpdata(this,true);
           //加显示颜色
-        }else if(res.data == 'a\n' && this.index == 2){
+        }else if(res.data == '2\n' && this.index == 2){
 
           this.quesresult == 'true'
           this.$options.methods.setImage(this);
           this.$options.methods.handleUpdata(this,true);
           //加显示颜色
-        }else if(res.data == 'a\n' && this.index == 3){
+        }else if(res.data == '10\n' && this.index == 3){
 
           this.quesresult == 'true'
           this.$options.methods.setImage(this);
           this.$options.methods.handleUpdata(this,true);
           //加显示颜
-        }else if(res.data == 'a\n' && this.index == 4){
+        }else if(res.data == '[1,2,3,4,5]\n' && this.index == 4){
 
           this.quesresult == 'true'
           this.$options.methods.setImage(this);
