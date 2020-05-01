@@ -32,14 +32,20 @@ userPage: /userPage/'student_id'  ( 'to'按钮会把参数为'16206455'的学号
 
 路由跳转
                ---register
+
 loginPage  --  ---admin
+
                ---userPage/'id'
+
 
 register --- userPage/'id'
 
+
 admin --- studentDetail/'id'
 
+
 userPage --- questionPage
+
 
 questionPage --- finish
 
