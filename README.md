@@ -31,23 +31,34 @@ userPage: /userPage/'student_id'  ( 'to'按钮会把参数为'16206455'的学号
 *****************************************************
 
 路由跳转
-               ---register
 
-loginPage  --  ---admin
+loginPage
 
-               ---userPage/'id'
+           ---register
 
+           ---admin
 
-register --- userPage/'id'
-
-
-admin --- studentDetail/'id'
+           ---userPage/'id'
 
 
-userPage --- questionPage
+register
+
+           ---userPage/'id'
 
 
-questionPage --- finish
+admin
+
+           ---studentDetail/'id'
+
+
+userPage
+
+            ---questionPage
+
+
+questionPage
+
+            ---finish
 
 *****************************************************
 `npm run build` 前需要改动:
