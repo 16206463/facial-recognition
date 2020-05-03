@@ -4,20 +4,21 @@
 
     <h1>Student {{ studentID }} Detail</h1>
 
+
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
-      <el-tab-pane label="Student Info" name="first" class="info" @click="check_student_info">
+      <el-tab-pane label="Student Info" name="first" class="info" >
         <p>Student Name:  {{ student_name }}</p>
         <p>Password:  {{ password }}</p>
         <p>Model Loss:  {{ model_loss }}</p>
         <p>Model Accuracy:  {{ model_acc }}</p>
       </el-tab-pane>
 
-      <el-tab-pane label="Photo Sample" name="second" style="display: inline" @click="check_origin">
+      <el-tab-pane label="Photo Sample" name="second" style="display: inline" >
         <!--v-for="origin in originlist"-->
         <el-image :src="origin" fit="fill"></el-image>
       </el-tab-pane>
 
-      <el-tab-pane label="Exam Result" name="third" @click="check_exam">
+      <el-tab-pane label="Exam Result" name="third" >
           <el-table
             :data="tableDataEmotion"
             style="width: 100%">
@@ -63,7 +64,7 @@
       </el-tab-pane>
 
 
-      <el-tab-pane label="Warning List" name="fourth" @click="check_warninglist">
+      <el-tab-pane label="Warning List" name="fourth" >
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -270,7 +271,19 @@
       },
       methods: {
         handleClick(tab, event) {
-          console.log(tab, event);
+
+
+          if(tab.index == 0){
+            // this.$router.$options.check_student_info();
+            this.check_student_info()
+          }else if( tab.index == 1){
+            this.check_origin();
+          }else if(tab.index == 2){
+            this.check_exam();
+          }else if(tab.index == 3){
+            this.check_warninglist();
+          }
+
         },
 
         check_student_info(){

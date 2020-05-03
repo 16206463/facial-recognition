@@ -19,13 +19,13 @@
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="all">show all</el-button>
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <el-button type="primary" @click="all">show all</el-button>-->
+<!--        </el-form-item>-->
 
-        <el-form-item>
-          <el-button type="primary" @click="analysis">analysis</el-button>
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <el-button type="primary" @click="analysis">analysis</el-button>-->
+<!--        </el-form-item>-->
       </el-form>
     </div>
 
@@ -347,6 +347,18 @@
     methods: {
       handleClick(tab, event) {
         console.log(tab, event);
+
+
+        if(tab.index == 0){
+          // this.$router.$options.check_student_info();
+
+        }else if( tab.index == 1){
+          this.all();
+        }else if(tab.index == 2){
+          this.analysis();
+        }
+
+
       },
 
       onSubmit() {
