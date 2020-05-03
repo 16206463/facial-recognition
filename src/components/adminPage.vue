@@ -30,7 +30,31 @@
     </div>
 
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
-      <el-tab-pane label="Student List" name="first" @click="all">
+      <el-tab-pane label="Warning Score Standard" name="first">
+        <div class="note">
+          <el-table
+            :data="noteData"
+            border
+            style="width: 50%">
+            <el-table-column
+              prop="score"
+              label="Warning Score"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="risk"
+              label="Plagiarism Risk"
+              width="400">
+            </el-table-column>
+            <el-table-column
+              prop="check"
+              label="Check Needed">
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-tab-pane>
+
+      <el-tab-pane label="Student List" name="second" @click="all">
         <div class="list">
           <el-table
               :data="tableData"
@@ -84,32 +108,11 @@
             </el-table>
         </div>
 
-        <div class="note">
-          <h3 style="text-align:left">Note:</h3>
-          <el-table
-            :data="noteData"
-            border
-            style="width: 50%">
-            <el-table-column
-              prop="score"
-              label="Warning Score"
-              width="200">
-            </el-table-column>
-            <el-table-column
-              prop="risk"
-              label="Plagiarism Risk"
-              width="400">
-            </el-table-column>
-            <el-table-column
-              prop="check"
-              label="Check Needed">
-            </el-table-column>
-          </el-table>
-        </div>
+
 
       </el-tab-pane>
 
-      <el-tab-pane label="Exam Analysis " name="second" class="testAnalyse" @click="analysis">
+      <el-tab-pane label="Exam Analysis " name="third" class="testAnalyse" @click="analysis">
           <el-table
             :data="tableDataTest"
             style="width: 100%"
@@ -518,7 +521,4 @@
     margin: 10px;
   }
 
-  .note{
-    margin-top: 50px;
-  }
 </style>
