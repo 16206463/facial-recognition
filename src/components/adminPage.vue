@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>This is adminPage</p>
+    <h1>Admin Page</h1>
 
 
 
@@ -29,125 +29,269 @@
       </el-form>
     </div>
 
-  <div class="list">
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      :row-class-name="tableRowClassName">
+    <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
+      <el-tab-pane label="Student List" name="first" @click="all">
+        <div class="list">
+          <el-table
+              :data="tableData"
+              style="width: 100%"
+              :row-class-name="tableRowClassName">
 
-      <el-table-column
-        type="index"
-        width="50">
-      </el-table-column>
+              <el-table-column
+                type="index"
+                width="50">
+              </el-table-column>
 
-      <el-table-column
-        prop="student_number"
-        label="studentID"
-        width="180">
-      </el-table-column>
+              <el-table-column
+                prop="student_number"
+                label="studentID"
+                width="180">
+              </el-table-column>
 
-      <el-table-column
-        prop="name"
-        label="name"
-        width="180">
-      </el-table-column>
-
-
-      <el-table-column
-        prop="warning_times"
-        label="warning_times"
-        width="180">
-      </el-table-column>
-
-      <el-table-column
-        prop="warning_score"
-        label="warning_score"
-        width="180">
-      </el-table-column>
+              <el-table-column
+                prop="name"
+                label="name"
+                width="180">
+              </el-table-column>
 
 
-<!--      <el-table-column class="detail_button">-->
-<!--        <el-button type="primary"   @click="detail(scope.$index, scope.row)">详情</el-button>-->
-<!--      </el-table-column>-->
+              <el-table-column
+                prop="warning_times"
+                label="warning_times"
+                width="180">
+              </el-table-column>
 
-      <el-table-column
-        align="right">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="detail(scope.$index, scope.row)">detail</el-button>
-
-
-        </template>
-      </el-table-column>
+              <el-table-column
+                prop="warning_score"
+                label="warning_score"
+                width="180">
+              </el-table-column>
 
 
-    </el-table>
-  </div>
+              <!--      <el-table-column class="detail_button">-->
+              <!--        <el-button type="primary"   @click="detail(scope.$index, scope.row)">详情</el-button>-->
+              <!--      </el-table-column>-->
 
-  <div class="testAnalyse">
-      <el-table
-        :data="tableDataTest"
-        style="width: 100%"
-        :row-class-name="tableRowClassName">
+              <el-table-column
+                align="right">
+                <template slot-scope="scope">
+                  <el-button
+                    size="mini"
+                    @click="detail(scope.$index, scope.row)">detail</el-button>
+                </template>
+              </el-table-column>
 
-        <el-table-column
-          type="index"
-          width="50">
-        </el-table-column>
+            </el-table>
+        </div>
 
-        <el-table-column
-          prop="correct"
-          label="correct"
-          width="180">
-        </el-table-column>
+        <div class="note">
+          <h3 style="text-align:left">Note:</h3>
+          <el-table
+            :data="noteData"
+            border
+            style="width: 50%">
+            <el-table-column
+              prop="score"
+              label="Warning Score"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="risk"
+              label="Plagiarism Risk"
+              width="400">
+            </el-table-column>
+            <el-table-column
+              prop="check"
+              label="Check Needed">
+            </el-table-column>
+          </el-table>
+        </div>
 
-        <el-table-column
-          prop="emotion_happy"
-          label="emotion_happy"
-          width="180">
-        </el-table-column>
+      </el-tab-pane>
 
+      <el-tab-pane label="Exam Analysis " name="second" class="testAnalyse" @click="analysis">
+          <el-table
+            :data="tableDataTest"
+            style="width: 100%"
+            :row-class-name="tableRowClassName">
 
-        <el-table-column
-          prop="emotion_neutral"
-          label="emotion_neutral"
-          width="180">
-        </el-table-column>
+            <el-table-column
+              type="index"
+              width="50">
+            </el-table-column>
 
-        <el-table-column
-          prop="emotion_angry"
-          label="emotion_angry"
-          width="180">
-        </el-table-column>
+            <el-table-column
+              prop="correct"
+              label="correct"
+              width="180">
+            </el-table-column>
 
-        <el-table-column
-          prop="emotion_sad"
-          label="emotion_sad"
-          width="180">
-        </el-table-column>
-
-        <el-table-column
-          prop="emotion_fear"
-          label="emotion_fear"
-          width="180">
-        </el-table-column>
-
-        <el-table-column
-          prop="emotion_disgust"
-          label="emotion_disgust"
-          width="180">
-        </el-table-column>
-
-        <el-table-column
-          prop="emotion_surprise"
-          label="emotion_surprise"
-          width="180">
-        </el-table-column>
+            <el-table-column
+              prop="emotion_happy"
+              label="emotion_happy"
+              width="180">
+            </el-table-column>
 
 
-      </el-table>
-    </div>
+            <el-table-column
+              prop="emotion_neutral"
+              label="emotion_neutral"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="emotion_angry"
+              label="emotion_angry"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="emotion_sad"
+              label="emotion_sad"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="emotion_fear"
+              label="emotion_fear"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="emotion_disgust"
+              label="emotion_disgust"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="emotion_surprise"
+              label="emotion_surprise"
+              width="180">
+            </el-table-column>
+
+          </el-table>
+      </el-tab-pane>
+    </el-tabs>
+
+  <!--<div class="list">-->
+    <!--<el-table-->
+      <!--:data="tableData"-->
+      <!--style="width: 100%"-->
+      <!--:row-class-name="tableRowClassName">-->
+
+      <!--<el-table-column-->
+        <!--type="index"-->
+        <!--width="50">-->
+      <!--</el-table-column>-->
+
+      <!--<el-table-column-->
+        <!--prop="student_number"-->
+        <!--label="studentID"-->
+        <!--width="180">-->
+      <!--</el-table-column>-->
+
+      <!--<el-table-column-->
+        <!--prop="name"-->
+        <!--label="name"-->
+        <!--width="180">-->
+      <!--</el-table-column>-->
+
+
+      <!--<el-table-column-->
+        <!--prop="warning_times"-->
+        <!--label="warning_times"-->
+        <!--width="180">-->
+      <!--</el-table-column>-->
+
+      <!--<el-table-column-->
+        <!--prop="warning_score"-->
+        <!--label="warning_score"-->
+        <!--width="180">-->
+      <!--</el-table-column>-->
+
+
+<!--&lt;!&ndash;      <el-table-column class="detail_button">&ndash;&gt;-->
+<!--&lt;!&ndash;        <el-button type="primary"   @click="detail(scope.$index, scope.row)">详情</el-button>&ndash;&gt;-->
+<!--&lt;!&ndash;      </el-table-column>&ndash;&gt;-->
+
+      <!--<el-table-column-->
+        <!--align="right">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--@click="detail(scope.$index, scope.row)">detail</el-button>-->
+
+
+        <!--</template>-->
+      <!--</el-table-column>-->
+
+
+    <!--</el-table>-->
+  <!--</div>-->
+
+  <!--<div class="testAnalyse">-->
+      <!--<el-table-->
+        <!--:data="tableDataTest"-->
+        <!--style="width: 100%"-->
+        <!--:row-class-name="tableRowClassName">-->
+
+        <!--<el-table-column-->
+          <!--type="index"-->
+          <!--width="50">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="correct"-->
+          <!--label="correct"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_happy"-->
+          <!--label="emotion_happy"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+
+        <!--<el-table-column-->
+          <!--prop="emotion_neutral"-->
+          <!--label="emotion_neutral"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_angry"-->
+          <!--label="emotion_angry"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_sad"-->
+          <!--label="emotion_sad"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_fear"-->
+          <!--label="emotion_fear"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_disgust"-->
+          <!--label="emotion_disgust"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+        <!--<el-table-column-->
+          <!--prop="emotion_surprise"-->
+          <!--label="emotion_surprise"-->
+          <!--width="180">-->
+        <!--</el-table-column>-->
+
+
+      <!--</el-table>-->
+    <!--</div>-->
 
   </div>
 
@@ -179,9 +323,32 @@
         testlist: [],
         tableDataTest: [],
 
+        activeName: 'first',
+
+        noteData: [{
+          score: '0 - 0.2',
+          risk: 'No risk of plagiarism',
+          check: 'NO'
+        }, {
+          score: '0.2 - 0.5',
+          risk: 'Low risk of plagiarism',
+          check: 'NO'
+        }, {
+          score: '0.5 - 0.7',
+          risk: 'High risk of plagiarism',
+          check: 'YES'
+        }, {
+          score: '0.7 - 1',
+          risk: 'Extremely high risk of plagiarism',
+          check: 'YES'
+        }]
       }
     },
     methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
+
       onSubmit() {
         console.log('submit!');
 
@@ -315,7 +482,7 @@
   .list{
 
     display: flex;
-    padding: 100px;
+    /*padding: 100px;*/
   }
 
   .detail_button{
@@ -329,5 +496,17 @@
 
   .el-table .success-row {
     background: #f0f9eb;
+  }
+
+  h1{
+    margin: 10px;
+  }
+
+  .tab{
+    margin: 10px;
+  }
+
+  .note{
+    margin-top: 50px;
   }
 </style>
