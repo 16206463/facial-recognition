@@ -11,6 +11,8 @@
         <p>Password:  {{ password }}</p>
         <p>Model Loss:  {{ model_loss }}</p>
         <p>Model Accuracy:  {{ model_acc }}</p>
+
+        <el-image fit="fill" :src="plt_url"> training-model </el-image>
       </el-tab-pane>
 
       <el-tab-pane label="Photo Sample" name="second" style="display: inline" >
@@ -266,7 +268,8 @@
 
             // studentDetail: true,
 
-            activeName: 'first'
+            activeName: 'first',
+            plt_url: ''
           }
       },
       methods: {
@@ -304,6 +307,7 @@
               this.password = response.data.password
               this.model_acc = response.data.model_acc
               this.model_loss = response.data.model_loss
+              this.plt_url  = response.data.plt_url
 
             })
             .catch( (error) => {
