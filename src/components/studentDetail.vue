@@ -17,7 +17,10 @@
 
       <el-tab-pane label="Photo Sample" name="second" style="display: inline" >
         <!--v-for="origin in originlist"-->
-        <el-image :src="origin" fit="fill"></el-image>
+        <template v-for="origin in originlist">
+          <el-image :src="origin" fit="fill"></el-image>
+        </template>
+
       </el-tab-pane>
 
       <el-tab-pane label="Exam Result" name="third" >
@@ -88,6 +91,18 @@
               width="180">
             </el-table-column>
 
+            <el-table-column
+              prop="picname"
+              label="picname"
+              width="180">
+            </el-table-column>
+
+            <el-table-column
+              prop="state"
+              label="state"
+              width="180">
+            </el-table-column>
+
 
             <el-table-column prop="image" label="image" min-width="20%" >
               <!-- 图片的显示 -->
@@ -103,7 +118,7 @@
               <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  @click="detail(scope.$index, scope.row)">detail</el-button>
+                  @click="Pass(scope.$index, scope.row)">pass</el-button>
               </template>
             </el-table-column>
 
@@ -417,7 +432,9 @@
                 for(var each in response.data){
                   var item = {
                     url: this.dic[each].url,
-                    acc: this.dic[each].acc
+                    acc: this.dic[each].acc,
+                    picname: this.dic[each].pic_name,
+                    state: this.dic[each].state
                   }
                   this.piclist.push(item)
                   this.tableData.push(item)
@@ -429,10 +446,29 @@
                 console.log(error);
               });
           },
-        detail(index, row) {
-          console.log( row.url );
+        Pass(index, row) {
+          console.log( index );
 
-          this.pic = row.url
+          // this.pic = row.picname
+
+          var params = new URLSearchParams();
+          params.append('username', this.studentID); //你要传给后台的参数值 key/value
+          params.append('index', index+1); //你要传给后台的参数值 key/value
+          params.append('pic_name', row.picname); //你要传给后台的参数值 key/value
+
+          axios({
+            url: '/dashboard/remove',
+            method: 'POST',
+            data: params,
+          })
+            .then( (response) => {
+              console.log(response);
+
+              location.reload();
+            })
+            .catch( (error) => {
+              console.log(error);
+            });
 
           // this.pic = require (" `row.url` ")
 

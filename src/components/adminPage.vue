@@ -3,6 +3,7 @@
     <h1>Admin Page</h1>
 
 
+    <div @click="ave"> ave</div>
 
     <div>
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -19,13 +20,6 @@
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
 
-<!--        <el-form-item>-->
-<!--          <el-button type="primary" @click="all">show all</el-button>-->
-<!--        </el-form-item>-->
-
-<!--        <el-form-item>-->
-<!--          <el-button type="primary" @click="analysis">analysis</el-button>-->
-<!--        </el-form-item>-->
       </el-form>
     </div>
 
@@ -173,128 +167,12 @@
             </el-table-column>
 
           </el-table>
+
+        <p> total user {{ this.totaluser }} , attendance {{ this.attendance}} , average_score {{ this.average_score }}</p>
       </el-tab-pane>
+
+
     </el-tabs>
-
-  <!--<div class="list">-->
-    <!--<el-table-->
-      <!--:data="tableData"-->
-      <!--style="width: 100%"-->
-      <!--:row-class-name="tableRowClassName">-->
-
-      <!--<el-table-column-->
-        <!--type="index"-->
-        <!--width="50">-->
-      <!--</el-table-column>-->
-
-      <!--<el-table-column-->
-        <!--prop="student_number"-->
-        <!--label="studentID"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-
-      <!--<el-table-column-->
-        <!--prop="name"-->
-        <!--label="name"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-
-
-      <!--<el-table-column-->
-        <!--prop="warning_times"-->
-        <!--label="warning_times"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-
-      <!--<el-table-column-->
-        <!--prop="warning_score"-->
-        <!--label="warning_score"-->
-        <!--width="180">-->
-      <!--</el-table-column>-->
-
-
-<!--&lt;!&ndash;      <el-table-column class="detail_button">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-button type="primary"   @click="detail(scope.$index, scope.row)">详情</el-button>&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-table-column>&ndash;&gt;-->
-
-      <!--<el-table-column-->
-        <!--align="right">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-button-->
-            <!--size="mini"-->
-            <!--@click="detail(scope.$index, scope.row)">detail</el-button>-->
-
-
-        <!--</template>-->
-      <!--</el-table-column>-->
-
-
-    <!--</el-table>-->
-  <!--</div>-->
-
-  <!--<div class="testAnalyse">-->
-      <!--<el-table-->
-        <!--:data="tableDataTest"-->
-        <!--style="width: 100%"-->
-        <!--:row-class-name="tableRowClassName">-->
-
-        <!--<el-table-column-->
-          <!--type="index"-->
-          <!--width="50">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="correct"-->
-          <!--label="correct"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_happy"-->
-          <!--label="emotion_happy"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-
-        <!--<el-table-column-->
-          <!--prop="emotion_neutral"-->
-          <!--label="emotion_neutral"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_angry"-->
-          <!--label="emotion_angry"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_sad"-->
-          <!--label="emotion_sad"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_fear"-->
-          <!--label="emotion_fear"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_disgust"-->
-          <!--label="emotion_disgust"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion_surprise"-->
-          <!--label="emotion_surprise"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-
-      <!--</el-table>-->
-    <!--</div>-->
 
   </div>
 
@@ -313,6 +191,10 @@
         },
         tableData: [],
         dic: {},
+
+        totaluser: '',
+        attendance: '',
+        average_score: '',
 
         name:'',
         student_number: 0,
@@ -405,7 +287,40 @@
             console.log(error);
           });
 
+        axios({
+          method: 'post',
+          url: '/dashboard/overall'
+        }).then( res => {
+
+          console.log(res.data)
+
+          this.totaluser = res.data.total_user
+          this.attendance = res.data.attendance
+          this.average_score = res.data.average_score
+
+        })
+          .catch( (error) => {
+            console.log(error);
+          });
+
       },
+      ave(){
+
+        axios({
+          method: 'post',
+          url: '/dashboard/overall'
+        }).then( res => {
+
+          console.log(res.data)
+
+
+        })
+          .catch( (error) => {
+            console.log(error);
+          });
+
+      },
+
       tableRowClassName({row,rowIndex}) {
         if (row.warning_times >= 5 ) {
           console.log(row.warning_times)

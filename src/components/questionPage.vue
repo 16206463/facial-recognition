@@ -50,7 +50,7 @@
           </el-col>
         </el-row>
 
-        <el-button round type="primary" @click="Submit">  Run  </el-button>
+        <el-button round type="primary" @click="Submit" v-if="showB">  Run  </el-button>
         <el-button round type="primary" @click="to" v-if="nextpageText">  next question  </el-button>
 
         <el-button round type="primary" @click="pre" >  pre </el-button>
@@ -144,9 +144,12 @@ export default {
       textarea: '',
       adata: 0,
       test: false,
+      SS: false,
       code: '',
       curCode:'',
       result:'',
+      showB: true,
+      startExam: false,
       cmOptions:{
         tabSize: 4,
         mode: 'text/x-python',
@@ -258,7 +261,9 @@ export default {
 
     //每隔20秒拍照  上传到后端识别
     thread(){
-      console.log('开始i 考试')
+      console.log('开始考试')
+
+      this.startExam = true
 
       if(this.test == false){
         this.test = true
@@ -266,11 +271,11 @@ export default {
 
       var index = 0;
       var num = 0
-      if (index < 10000) {
+      if (index < 100000) {
         var _this = this
         var interval = setInterval(function () {
           if(num<50){
-            index+=5000;
+            index+=10000;
             num +=1;
             _this.$options.methods.RecogAuto(_this)
 
@@ -278,7 +283,7 @@ export default {
           }else{
             clearInterval(interval);
           }
-        }, 5000)
+        }, 10000)
       }
 
     },
@@ -299,6 +304,9 @@ export default {
     //自动拍照上传照片
     RecogAuto (vueself) {
 
+      vueself.showB = false
+
+
       vueself.thisContext.drawImage(vueself.thisVideo, 0, 0, vueself.videoWidth, vueself.videoHeight)
       // 获取图片base64链接
       var image = vueself.thisCancas.toDataURL('image/png')
@@ -306,6 +314,8 @@ export default {
       vueself.$emit('refreshDataList', vueself.imgSrc)
 
       if (vueself.imgSrc!==''){
+
+
         let file = vueself.imgSrc; // 把整个base64给file
         let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
         let myDate = new Date();
@@ -327,6 +337,7 @@ export default {
           method: 'POST',
           // config
         }).then(res=>{
+          vueself.showB = true
           console.log(res);
           vueself.ImgFile=res.data;
           vueself.accuracy = res.data;
