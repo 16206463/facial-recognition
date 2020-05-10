@@ -30,7 +30,8 @@
 
             <el-table-column
               type="index"
-              width="50">
+              width="180"
+              label="Question">
             </el-table-column>
 
             <el-table-column
@@ -124,6 +125,23 @@
 
           </el-table>
 
+      </el-tab-pane>
+
+      <el-tab-pane label="Q&A" name="fifth" style="text-align: left; margin: 5px">
+        <h3 style="margin-bottom: 5px">Q: What is Model loss?</h3>
+        <p style="margin-bottom: 30px">A: It is the loss function of the model, a method used to show the difference between the predicted data and the real data.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Model Accuracy?</h3>
+        <p style="margin-bottom: 30px">A: It is the accuracy of the model, the extent to which the predicted data coincide with the real data.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Photo Sample?</h3>
+        <p style="margin-bottom: 30px">A: Randomly extract 10 photos from 100 photos used in training model. The administrator can compare it with the warning photos to determine whether the students cheated or not.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Exam Result?</h3>
+        <p style="margin-bottom: 30px">A: It shows the student’s result for each question, the student's facial expression in doing each question, and the predictive possibility of this expression.</p>
+
+        <h3 style="margin-bottom: 5px">Q: How to check warning photos?</h3>
+        <p style="margin-bottom: 30px">A: You can see all the warning photos in the Warning List. Administrator can compare them with the photos in the Photo Sample to determine whether the student was cheating. If the administrator thinks the student was not cheating, please click on 'pass' button to remove this photo form warning list to reduce the warning_score of this student.</p>
       </el-tab-pane>
 
     </el-tabs>

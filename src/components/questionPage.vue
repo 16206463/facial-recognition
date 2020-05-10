@@ -25,7 +25,7 @@
     </div>
 
     <div v-if="startExam">
-      <p> {{ questionList[index] }} </p>
+      <h3 style="margin: 20px"> {{ questionList[index] }} </h3>
 
       <div>
         <el-row :gutter="60" class="txt">
@@ -91,40 +91,15 @@ export default {
       msg: 'facial recognition',
       questionList: [
 
-        '给定一个string，请输出这个string的长度。\n' +
-        '方法名：func，参数：string，返回值：int\n' +
-        '\n' +
-        '#填入func\n' +
-        'print(func(“fzx like play game”))\n',
+        'Q1: Please write a function to calculate and output the length of string "fzx likes playing game".',
 
-        '给定一个list，请输出这个list的长度。\n' +
-        '方法名：func，参数：list，返回值：int\n' +
-        '\n' +
-        '#填入func\n' +
-        'print(func([1,2,3]))\n',
+        'Q2: Given a list[1, 2, 3]. Please write a function to calculate and output the length of this list.',
 
-        '给定一个dictionary，请输出这个dictionary的长度。\n' +
-        '方法名：func，参数：dictionary，返回值：int\n' +
-        '\n' +
-        '#填入func\n' +
-        'dic = {}\n' +
-        'dic[“a”] = 1\n' +
-        'dic[“b”] = 2\n' +
-        'print(func(dic))\n',
+        'Q3: Given a dictionary{a:1, b:2}. Please write a function to calculate and output the length of this dictionary.',
 
-        '已知一个细胞分裂成两个细胞需要一个周期，假设所有细胞不会死亡，从1个细胞分离到1024个细胞需要几个周期？\n' +
-        '方法名：func，参数：无，返回值：int\n' +
-        '\n' +
-        '#填入func\n' +
-        'print(func())\n',
+        'Q4: It is known that it takes one cycle for a cell to divide into two cells, assuming that all cells do not die. How many period does it take to separate 1024 cells from 1 cell?',
 
-        '请设计一个排序算法，将list以从小到大返回。\n' +
-        '方法名：func，参数：list，返回值：list\n' +
-        '\n' +
-        '#填入func\n' +
-        'a = [5,4,3,2,1]\n' +
-        'a = func(a)\n' +
-        'print(a)\n',
+        'Q5: Please design a sort algorithm that sort and return the list [5,4,3,2,1] from small to large.',
 
       ],
       index: 0,
