@@ -15,9 +15,7 @@
       </div>
 
 
-    <h2>Hello   {{ studentID }} , this is 1st exam page , do not leave this page when you are examming.</h2>
-
-
+    <h2>Hello   {{ studentID }} , this is exam page , do not leave this page when you are examming.</h2>
 
 
     <div>
@@ -51,18 +49,13 @@
         </el-row>
 
         <el-button round type="primary" @click="Submit" v-if="showB">  Run  </el-button>
-        <el-button round type="primary" @click="to" v-if="nextpageText">  next question  </el-button>
+        <el-button round type="primary" @click="to">  next question  </el-button>
 
         <el-button round type="primary" @click="pre" >  pre </el-button>
 
       </div>
 
     </div>
-
-
-
-
-
 
 
   </div>
@@ -122,6 +115,7 @@ export default {
       SS: false,
       code: '',
       curCode:'',
+      still: true,
       result:'',
       showB: true,
       startExam: false,
@@ -168,26 +162,6 @@ export default {
       this.$router.push('/loginPage')
     },
 
-    //前端video投影人脸
-    // getCompetence () {
-    //   var _this = this
-    //   this.thisCancas = document.getElementById('canvasCamera')
-    //   this.thisContext = this.thisCancas.getContext('2d')
-    //   this.thisVideo = document.getElementById('videoCamera')
-    //
-    //   var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
-    //
-    //   navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-    //     _this.thisVideo.srcObject = stream
-    //     _this.thisVideo.onloadedmetadata = function (e) {
-    //       _this.thisVideo.play()
-    //     }
-    //   }).catch(err => {
-    //     console.log(err)
-    //   })
-    // },
-
-
     getCompetence () {
       var _this = this
       this.thisCancas = document.getElementById('canvasCamera')
@@ -232,8 +206,6 @@ export default {
       })
     },
 
-
-
     //每隔20秒拍照  上传到后端识别
     thread(){
       console.log('开始考试')
@@ -246,10 +218,10 @@ export default {
 
       var index = 0;
       var num = 0
-      if (index < 100000) {
+      if (index < 100000  ) {
         var _this = this
         var interval = setInterval(function () {
-          if(num<50){
+          if(num<50  && _this.still == true ){
             index+=10000;
             num +=1;
             _this.$options.methods.RecogAuto(_this)
@@ -376,7 +348,6 @@ export default {
         console.info(res.data)
         this.piclist = res.data
 
-
       }).catch(error => {
         console.log("付子欣你网络请求错误", error);
       });
@@ -385,7 +356,6 @@ export default {
     },
 
     Submit(){
-
       console.log(this.code)
       var params = new FormData();// 创建form对象
       params.append('code', this.code.toString());
@@ -398,11 +368,7 @@ export default {
         this.result = res.data
         //第一题结果比对
         if (res.data == '18\n' && this.index == 0){
-
           this.quesresult == 'true'
-
-          console.log(this.quesresult)
-
           this.$options.methods.setImage(this);
           this.$options.methods.handleUpdata(this,true);
           //加显示颜色正确结果
@@ -442,12 +408,8 @@ export default {
           this.$options.methods.handleUpdata(this,false);
         }
 
-        this.nextpageText = true
       })
 
-      //
-      // this.$options.methods.setImage(this);
-      // this.$options.methods.handleUpdata(this);
     },
 
 
@@ -493,7 +455,6 @@ export default {
           parms.append('result','false');
         }
 
-
         axios({
           url: '/dashboard/emotion',
           data: parms,
@@ -512,44 +473,65 @@ export default {
     },
     to()
     {
-      if(this.index < 4){
-        this.index += 1
-        this.code = ''
-        this.result = ''
-        console.log(this.index + '$$$')
-      } else {
+
+      var params = new FormData();// 创建form对象
+      params.append('username', this.studentID);
+      params.append('question', this.index);
+
+      axios({
+        url: '/dashboard/next',
+        method: 'POST',
+        data: params
+      }).then((res) => {
+        console.log('sdfsadfadfas' + res.data)
+
+        if(res.data == 1){
+          if(this.index < 4){
+            this.index += 1
+            this.code = ''
+            this.result = ''
+            this.nextpageText = true
+          } else {
+            this.still = false
+            var params = new FormData();// 创建form对象
+            params.append('username', this.studentID);
+            axios({
+              url: '/dashboard/finish',
+              method: 'POST',
+              data: params
+            }).then((res) => {
+              console.info(res.data)
+            }).catch(error => {
+              console.log("付子欣你网络请求错误", error);
+            });
+
+            this.$router.replace({
+              path: '/finish',
+              params: {
+                studentID: this.studentID
+              },
+            })
+          }
+
+        }else {
+          console.log('@#$%^&*(#$%^&*(@#$%^&*(#$%^& fail')
+          this.nextpageText = false
+        }
 
 
-        var params = new FormData();// 创建form对象
-        params.append('username', this.studentID);
-
-        axios({
-          url: '/dashboard/finish',
-          method: 'POST',
-          data: params
-
-        }).then((res) => {
-
-          console.info(res.data)
-          this.piclist = res.data
-
-        }).catch(error => {
-          console.log("付子欣你网络请求错误", error);
-        });
 
 
-        this.$router.replace({
-          path: '/finish',
-          params: {
-            studentID: this.studentID
-          },
-        })
-      }
+      }).catch(error => {
+        console.log("...", error);
 
-      this.nextpageText = false
+      });
+
     },
 
     pre(){
+
+      this.still = false
+
       var params = new FormData();// 创建form对象
       params.append('username', this.studentID);
 

@@ -5,8 +5,29 @@
     <h1>Student {{ studentID }} Detail</h1>
 
 
-    <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
-      <el-tab-pane label="Student Info" name="first" class="info" >
+    <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab" v-if="upload">
+
+      <el-tab-pane label="Q&A" name="first" style="text-align: left; margin: 5px">
+        <h3 style="margin-bottom: 5px">Q: What is Model loss?</h3>
+        <p style="margin-bottom: 30px">A: It is the loss function of the model, a method used to show the difference between the predicted data and the real data.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Model Accuracy?</h3>
+        <p style="margin-bottom: 30px">A: It is the accuracy of the model, the extent to which the predicted data coincide with the real data.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Photo Sample?</h3>
+        <p style="margin-bottom: 30px">A: Randomly extract 10 photos from 100 photos used in training model. The administrator can compare it with the warning photos to determine whether the students cheated or not.</p>
+
+        <h3 style="margin-bottom: 5px">Q: What is Exam Result?</h3>
+        <p style="margin-bottom: 30px">A: It shows the student’s result for each question, the student's facial expression in doing each question, and the predictive possibility of this expression.</p>
+
+        <h3 style="margin-bottom: 5px">Q: How to check warning photos?</h3>
+        <p style="margin-bottom: 30px">A: You can see all the warning photos in the Warning List. Administrator can compare them with the photos in the Photo Sample to determine whether the student was cheating. If the administrator thinks the student was not cheating, please click on 'pass' button to remove this photo form warning list to reduce the warning_score of this student.</p>
+      </el-tab-pane>
+
+
+
+
+      <el-tab-pane label="Student Info" name="second" class="info" >
         <p>Student Name:  {{ student_name }}</p>
         <p>Password:  {{ password }}</p>
         <p>Model Loss:  {{ model_loss }}</p>
@@ -15,7 +36,11 @@
         <el-image fit="fill" :src="plt_url"> training-model </el-image>
       </el-tab-pane>
 
-      <el-tab-pane label="Photo Sample" name="second" style="display: inline" >
+
+
+
+
+      <el-tab-pane label="Photo Sample" name="third" style="display: inline" >
         <!--v-for="origin in originlist"-->
         <template v-for="origin in originlist">
           <el-image :src="origin" fit="fill"></el-image>
@@ -23,7 +48,7 @@
 
       </el-tab-pane>
 
-      <el-tab-pane label="Exam Result" name="third" >
+      <el-tab-pane label="Exam Result" name="fourth" >
           <el-table
             :data="tableDataEmotion"
             style="width: 100%">
@@ -70,7 +95,7 @@
       </el-tab-pane>
 
 
-      <el-tab-pane label="Warning List" name="fourth" >
+      <el-tab-pane label="Warning List" name="fifth" >
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -127,22 +152,6 @@
 
       </el-tab-pane>
 
-      <el-tab-pane label="Q&A" name="fifth" style="text-align: left; margin: 5px">
-        <h3 style="margin-bottom: 5px">Q: What is Model loss?</h3>
-        <p style="margin-bottom: 30px">A: It is the loss function of the model, a method used to show the difference between the predicted data and the real data.</p>
-
-        <h3 style="margin-bottom: 5px">Q: What is Model Accuracy?</h3>
-        <p style="margin-bottom: 30px">A: It is the accuracy of the model, the extent to which the predicted data coincide with the real data.</p>
-
-        <h3 style="margin-bottom: 5px">Q: What is Photo Sample?</h3>
-        <p style="margin-bottom: 30px">A: Randomly extract 10 photos from 100 photos used in training model. The administrator can compare it with the warning photos to determine whether the students cheated or not.</p>
-
-        <h3 style="margin-bottom: 5px">Q: What is Exam Result?</h3>
-        <p style="margin-bottom: 30px">A: It shows the student’s result for each question, the student's facial expression in doing each question, and the predictive possibility of this expression.</p>
-
-        <h3 style="margin-bottom: 5px">Q: How to check warning photos?</h3>
-        <p style="margin-bottom: 30px">A: You can see all the warning photos in the Warning List. Administrator can compare them with the photos in the Photo Sample to determine whether the student was cheating. If the administrator thinks the student was not cheating, please click on 'pass' button to remove this photo form warning list to reduce the warning_score of this student.</p>
-      </el-tab-pane>
 
     </el-tabs>
 
@@ -289,6 +298,8 @@
             origindic: {},
             origin: '',
 
+            upload: true,
+
             model_acc: '',
             model_loss: '',
             student_name: '',
@@ -309,14 +320,14 @@
         handleClick(tab, event) {
 
 
-          if(tab.index == 0){
+          if(tab.index == 1){
             // this.$router.$options.check_student_info();
             this.check_student_info()
-          }else if( tab.index == 1){
+          }else if( tab.index == 2){
             this.check_origin();
-          }else if(tab.index == 2){
-            this.check_exam();
           }else if(tab.index == 3){
+            this.check_exam();
+          }else if(tab.index == 4){
             this.check_warninglist();
           }
 
@@ -381,8 +392,6 @@
 
         },
 
-
-
         check_exam(){
           var params = new URLSearchParams();
           params.append('username', this.studentID); //你要传给后台的参数值 key/value
@@ -398,8 +407,6 @@
             .then( (response) => {
               console.log(response);
 
-
-
                 this.emotiondic = response.data
 
                 console.log(this.emotiondic)
@@ -411,8 +418,6 @@
                     result: this.emotiondic[each].result,
                     emacc: this.emotiondic[each].emotion_acc
                   }
-
-
 
                   this.emotionlist.push(item)
                   this.tableDataEmotion.push(item)
@@ -482,7 +487,8 @@
             .then( (response) => {
               console.log(response);
 
-              location.reload();
+              this.$router.go(0)
+
             })
             .catch( (error) => {
               console.log(error);
