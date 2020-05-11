@@ -12,7 +12,7 @@
         </div>
         <el-form :model="ruleForm"  :rules="rules" ref="ruleForm">
           <el-form-item prop="account">
-            <el-input  v-model="ruleForm.account" placeholder="name"autocomplete="off" clearable>
+            <el-input  v-model="ruleForm.account" placeholder="name" clearable>
             </el-input>
           </el-form-item>
 
@@ -21,7 +21,7 @@
           </el-form-item>
 
           <el-form-item prop="studentID">
-            <el-input  v-model="ruleForm.studentID" placeholder="studentID"  clearable></el-input>
+            <el-input  v-model="ruleForm.studentID" placeholder="studentID" autocomplete="off" clearable></el-input>
           </el-form-item>
 
           <el-form-item>

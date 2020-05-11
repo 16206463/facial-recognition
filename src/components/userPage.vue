@@ -2,7 +2,6 @@
 	<div>
 
     <h1>User Page</h1>
-    <!--<el-button @click='deleteuser' class="delet_user">{{ deleteUserText }}</el-button>-->
 
     <el-steps :active="2">
       <el-step title="步骤 1" icon="el-icon-user"></el-step>
@@ -16,24 +15,13 @@
       <div class="btns">
         <el-button-group>
           <el-button @click="thread" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
-        <!--<el-button @click="getCompetence" type="primary"> {{OpenTheCameraText}} </el-button>-->
-<!--        <el-button @click="setImage" type="primary" class="btn"> {{TakeAPictureText}} <i class="el-icon-circle-plus-outline"></i></el-button>-->
-        <!--<el-button @click="stopNavigator" type="primary"> {{ CloseTheCameraText }} </el-button>-->
-<!--        <el-button @click="handleUpdata" type="primary" class="btn"> {{ uploadText }} <i class="el-icon-upload2"></i></el-button>-->
-
-        <el-button @click="to" type="primary"> to </el-button>
-
-        <el-button @click="train" type="primary" class="btn" v-if="Aftersubmit"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
-<!--        <el-button @click="check" type="primary" class="btn"> check </el-button>-->
-
-
+          <el-button @click="to" type="primary"> to </el-button>
+          <el-button @click="train" type="primary" class="btn" v-if="Aftersubmit"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
         </el-button-group>
-
       </div>
 
       <video id="videoCamera" :width="videoWidth" :height="videoHeight" autoplay></video>
       <canvas style="display:none;" id="canvasCamera" :width="videoWidth" :height="videoHeight" ></canvas>
-
       <img :src="imgSrc">
 
     </div>
@@ -58,12 +46,9 @@
         thisCancas: null,
         thisContext: null,
         StartText: 'Start ',
-        // OpenTheCameraText: 'Open The Camera',
         TakeAPictureText: 'Add Picture ',
-        // CloseTheCameraText: 'Close The Camera',
         uploadText: 'Upload ',
         ToExamPageText: 'Exam Page ',
-        // deleteUserText: 'delete user',
         num: 0,
         Aftersubmit: false,
         loading: true
@@ -86,25 +71,6 @@
         })
 
       },
-
-      // getCompetence () {
-      //   var _this = this
-      //   this.thisCancas = document.getElementById('canvasCamera')
-      //   this.thisContext = this.thisCancas.getContext('2d')
-      //   this.thisVideo = document.getElementById('videoCamera')
-      //
-      //   var constraints = { audio: false, video: { width: this.videoWidth, height: this.videoHeight } }
-      //
-      //   navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-      //     _this.thisVideo.srcObject = stream
-      //     _this.thisVideo.onloadedmetadata = function (e) {
-      //       _this.thisVideo.play()
-      //     }
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
-      // },
-
 
       getCompetence () {
         var _this = this
@@ -193,7 +159,7 @@
             method: 'POST',
             // config
           }).then(res=>{
-            console.log(res);
+            // console.log(res);
             this.ImgFile=res.data;
           }).catch(err=>{
             this.$notify.error({
@@ -206,8 +172,6 @@
 
       setImage10 (vueself) {
 
-        // let loadingInstance2 = Loading.service({ fullscreen: true });
-
         // 点击，canvas画图
         vueself.thisContext.drawImage(vueself.thisVideo, 0, 0, vueself.videoWidth, vueself.videoHeight)
         // 获取图片base64链接
@@ -215,13 +179,14 @@
         vueself.imgSrc = image
         vueself.$emit('refreshDataList', vueself.imgSrc)
 
-
         if (vueself.imgSrc!==''){
           let file = vueself.imgSrc; // 把整个base64给file
           let type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
           let time=(new Date()).valueOf();//生成时间戳
+
           let name = vueself.num + ".jpg"; // 定义文件名字
           vueself.num += 1
+
           let conversions = vueself.dataURLtoFile(file, name); // 调用base64转图片方法
           let parms=new FormData();
           parms.append('face',conversions,name);
@@ -230,16 +195,16 @@
             url: '/dashboard/set',
             data: parms,
             method: 'POST',
-            // config
           }).then(res=>{
-            console.log(res);
+            // console.log(res);
             vueself.ImgFile=res.data;
             if(res.data == 100){
               vueself.Aftersubmit = true
-
-              // this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-              //   loadingInstance2.close();
-              // });
+            }else if (res.data == 'Restart'){
+              this.$message({
+                message: '警告哦，重来亿次',
+                type: 'warning'
+              });
             }
           }).catch(err=>{
             vueself.$notify.error({
@@ -248,8 +213,6 @@
             });
           })
         }
-
-
       },
 
       check(){
@@ -262,13 +225,12 @@
         }).then(res=>{
           console.log(res);
         })
-
       },
 
       thread(){
 
+        this.num = 0;
         this.$message('Please look around');
-
         var index = 0;
         var num = 0
         if (index < 10000) {
@@ -277,10 +239,8 @@
             if(num<100){
               index+=100;
               num +=1;
-
               _this.$options.methods.setImage10(_this)
-
-              console.log(index + "这是第 "+num);
+              // console.log(index + "这是第 "+num);
             }else{
               alert("you have submitted 100 pictures")
               clearInterval(interval);
@@ -292,53 +252,35 @@
 
       train(){
         let loadingInstance = Loading.service({ fullscreen: true });
-
-        let param =new FormData();
-        param.append('username',this.username)
+        var parms=new FormData();
+        parms.append('username',this.username); //train value 训练模型名字
         axios({
-          url:'dashboard/check',
-          method: 'post',
-          data: param
+          url: '/dashboard/train',
+          data: parms,
+          method: 'POST'
         }).then(res=>{
 
+            if(res.data == "train successfully") {
 
-          console.log(res)
-          if(res.data == 100){
-            var parms=new FormData();
-            parms.append('username',this.username); //train value 训练模型名字
-            axios({
-              url: '/dashboard/train',
-              data: parms,
-              method: 'POST'
-            }).then(res=>{
-              console.log(res)
-              if(res.data == "train successfully"){
-
-                this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-                  loadingInstance.close();
+              this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+                loadingInstance.close();
+              });
+              this.$router.push(
+                {
+                  name: 'question',
+                  params: {
+                    studentID: this.username,
+                    data: 1
+                  }
                 });
+            }
+        }).catch(err=>{
+          console.info("err")
+          this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+            loadingInstance.close();
+          });
+        });
 
-                this.$router.push(
-                  {
-                    name: 'question',
-                    params: {
-                      studentID: this.username,
-                      data: 1
-                    }
-                  });
-              }
-            }).catch(err=>{
-              console.info("err")
-            });
-          }
-          else{
-            this.num = 0
-            alert('there are some invalid pictures exist, please Re-upload pictures!!! ')
-            this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-              loadingInstance.close();
-            });
-          }
-        })
       },
       to() {
         this.$router.push(
