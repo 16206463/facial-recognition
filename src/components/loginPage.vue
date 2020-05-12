@@ -5,9 +5,9 @@
 
 
     <el-steps :active="1" width="80%">
-      <el-step title="步骤 1" icon="el-icon-user"></el-step>
-      <el-step title="步骤 2" icon="el-icon-upload"></el-step>
-      <el-step title="步骤 3" icon="el-icon-edit"></el-step>
+      <el-step title="Step 1" icon="el-icon-user"></el-step>
+      <el-step title="Step 2" icon="el-icon-upload"></el-step>
+      <el-step title="Step 3" icon="el-icon-edit"></el-step>
     </el-steps>
 
 
