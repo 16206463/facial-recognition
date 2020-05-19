@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/dogpic.jpg"  width="300" height="280"> -->
 
 
 <!--    <router-link to="/loginPage" tag="button"> {{loginPage}} </router-link>-->

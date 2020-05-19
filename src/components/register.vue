@@ -11,17 +11,19 @@
           <p>Welcome</p>
         </div>
         <el-form :model="ruleForm"  :rules="rules" ref="ruleForm">
-          <el-form-item prop="account">
-            <el-input  v-model="ruleForm.account" placeholder="name" clearable>
-            </el-input>
+
+
+          <el-form-item prop="studentID">
+            <el-input  v-model="ruleForm.studentID" placeholder="studentID" autocomplete="off" clearable></el-input>
           </el-form-item>
 
           <el-form-item prop="password">
             <el-input type="password" v-model="ruleForm.password" placeholder="Password" autocomplete="off" show-password clearable></el-input>
           </el-form-item>
 
-          <el-form-item prop="studentID">
-            <el-input  v-model="ruleForm.studentID" placeholder="studentID" autocomplete="off" clearable></el-input>
+          <el-form-item prop="account">
+            <el-input  v-model="ruleForm.account" placeholder="name" clearable>
+            </el-input>
           </el-form-item>
 
           <el-form-item>
@@ -54,7 +56,7 @@
 
         if(value ===''){
 
-          return callback(new Error("账号不能为空"));
+          return callback(new Error("Please enter your account"));
 
         }else{
 
@@ -68,7 +70,7 @@
 
         if (value === '') {
 
-          callback(new Error('请输入密码'));
+          callback(new Error('Please enter your password'));
 
         } else {
 
@@ -131,7 +133,7 @@
                 console.log(response);
 
                   this.$message({
-                    message: '注册成功',
+                    message: 'register successfully',
                     type: 'success'
                   });
 
@@ -148,7 +150,7 @@
                 console.log(error);
               });
           } else {
-            this.$message.error('注册失败');
+            this.$message.error('register failed');
             return false;
           }
         });

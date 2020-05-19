@@ -75,7 +75,7 @@
 
         if(value ===''){
 
-          return callback(new Error("账号不能为空"));
+          return callback(new Error("Please enter your account"));
 
         }else{
 
@@ -89,7 +89,7 @@
 
         if (value === '') {
 
-          callback(new Error('请输入密码'));
+          callback(new Error('Please enter your password'));
 
         } else {
 
@@ -147,7 +147,7 @@
 
                 if(response.data == "Login successfully"){
                   this.$message({
-                    message: '登陆成功',
+                    message: 'login successlly',
                     type: 'success'
                   });
 
@@ -169,7 +169,7 @@
 
 
           } else {
-            this.$message.error('登录失败');
+            this.$message.error('login failed');
             return false;
           }
         });
@@ -191,21 +191,34 @@
               .then( (response) => {
                 console.log(response);
 
+                if(response.data == 'Login successfully'){
+                  this.$message({
+                    message: 'login successfully',
+                    type: 'success'
+                  });
+
+                  this.$router.push('/admin')
+
+                }else {
+                  this.$message.error('login failed');
+                  return false;
+                }
+
               })
               .catch( (error) => {
                 console.log(error);
               });
 
-            this.$message({
-              message: '登陆成功',
-              type: 'success'
-            });
-
-            this.$router.push('/admin')
-
-          } else {
-            this.$message.error('登录失败');
-            return false;
+          //   this.$message({
+          //     message: 'login successfully',
+          //     type: 'success'
+          //   });
+          //
+          //   this.$router.push('/admin')
+          //
+          // } else {
+          //   this.$message.error('login failed');
+          //   return false;
           }
         });
       },

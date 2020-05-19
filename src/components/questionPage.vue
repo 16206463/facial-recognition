@@ -290,7 +290,7 @@ export default {
           vueself.accuracy = res.data;
         }).catch(err=>{
           vueself.$notify.error({
-            title: '上传失败',
+            title: 'Upload Failed',
             message: err.msg
           });
         })
@@ -313,7 +313,7 @@ export default {
         // config
       }).then((response) => {
         console.log(response);
-        alert("Upload Success!");
+        alert("Upload Successfully!");
         this.accuracyText = response.data
       })
         .catch((error) => {
@@ -465,7 +465,7 @@ export default {
           vueself.ImgFile=res.data;
         }).catch(err=>{
           vueself.$notify.error({
-            title: '上传失败',
+            title: 'Upload Failed',
             message: err.msg
           });
         })

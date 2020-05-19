@@ -15,7 +15,7 @@
       <div class="btns">
         <el-button-group>
           <el-button @click="thread" type="primary" class="btn"> {{StartText}} <i class="el-icon-picture-outline-round"></i></el-button>
-          <el-button @click="to" type="primary"> to </el-button>
+<!--          <el-button @click="to" type="primary"> to </el-button>-->
           <el-button @click="train" type="primary" class="btn" v-if="Aftersubmit"> {{ ToExamPageText }} <i class="el-icon-d-arrow-right"></i></el-button>
         </el-button-group>
       </div>
@@ -163,15 +163,17 @@
             this.ImgFile=res.data;
           }).catch(err=>{
             this.$notify.error({
-              title: '上传失败',
+              title: 'Upload Failed',
               message: err.msg
             });
           })
         }
       },
 
+
       setImage10 (vueself) {
 
+        //ref : https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL
         // 点击，canvas画图
         vueself.thisContext.drawImage(vueself.thisVideo, 0, 0, vueself.videoWidth, vueself.videoHeight)
         // 获取图片base64链接
@@ -202,13 +204,13 @@
               vueself.Aftersubmit = true
             }else if (res.data == 'Restart'){
               this.$message({
-                message: '警告哦，重来亿次',
+                message: 'Please try it again',
                 type: 'warning'
               });
             }
           }).catch(err=>{
             vueself.$notify.error({
-              title: '上传失败',
+              title: 'Upload Failed',
               message: err.msg
             });
           })

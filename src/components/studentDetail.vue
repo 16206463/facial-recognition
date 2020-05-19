@@ -25,8 +25,6 @@
       </el-tab-pane>
 
 
-
-
       <el-tab-pane label="Student Info" name="second" class="info" >
         <p>Student Name:  {{ student_name }}</p>
         <p>Password:  {{ password }}</p>
@@ -35,9 +33,6 @@
 
         <el-image fit="fill" :src="plt_url"> training-model </el-image>
       </el-tab-pane>
-
-
-
 
 
       <el-tab-pane label="Photo Sample" name="third" style="display: inline" >
@@ -51,6 +46,7 @@
       <el-tab-pane label="Exam Result" name="fourth" >
           <el-table
             :data="tableDataEmotion"
+            empty-text="No data"
             style="width: 100%">
 
             <el-table-column
@@ -98,6 +94,7 @@
       <el-tab-pane label="Warning List" name="fifth" >
           <el-table
             :data="tableData"
+            empty-text="No data"
             style="width: 100%">
 
             <el-table-column
@@ -133,13 +130,11 @@
             <el-table-column prop="image" label="image" min-width="20%" >
               <!-- 图片的显示 -->
               <template   slot-scope="scope">
-                <!--          <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"  min-width="70" height="70" />-->
-                <el-image :src="scope.row.url"  min-width="70" height="70" fit="fill" />
+                <el-image :src="scope.row.url"  min-width="70" height="70" fit="fill"  />
               </template>
             </el-table-column>
 
             <el-table-column
-
               align="right">
               <template slot-scope="scope">
                 <el-button
@@ -147,132 +142,11 @@
                   @click="Pass(scope.$index, scope.row)">pass</el-button>
               </template>
             </el-table-column>
-
           </el-table>
-
       </el-tab-pane>
 
 
     </el-tabs>
-
-    <!--<div v-if="studentDetail">-->
-      <!--<p>student_name:  {{ student_name }}</p>-->
-      <!--<p>password:  {{ password }}</p>-->
-      <!--<p>model-loss:  {{ model_loss }}</p>-->
-      <!--<p>model_acc:  {{ model_acc }}</p>-->
-    <!--</div>-->
-
-
-
-
-    <!--<div>-->
-      <!--<el-button @click="check_warninglist">check-warninglist</el-button>-->
-
-      <!--<el-button @click="check_exam">check-exam result</el-button>-->
-
-      <!--<el-button @click="check_origin">check-origin</el-button>-->
-
-      <!--<el-button @click="check_student_info">check_student_info</el-button>-->
-<!--&lt;!&ndash;      student_info&ndash;&gt;-->
-    <!--</div>-->
-
-
-    <!--<div class="block" v-for="origin in originlist"  style="display: inline">-->
-
-      <!--<el-image :src="origin" fit="fill"></el-image>-->
-
-    <!--</div>-->
-
-    <!--<div>-->
-      <!--<el-table-->
-        <!--:data="tableDataEmotion"-->
-        <!--style="width: 100%">-->
-
-        <!--<el-table-column-->
-          <!--type="index"-->
-          <!--width="50">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="result"-->
-          <!--label="result"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emotion"-->
-          <!--label="emotion"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emurl"-->
-          <!--label="url"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="emacc"-->
-          <!--label="acc"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column prop="image" label="图片" min-width="20%" >-->
-          <!--&lt;!&ndash; 图片的显示 &ndash;&gt;-->
-          <!--<template   slot-scope="scope">-->
-            <!--<el-image :src="scope.row.emurl"  min-width="70" height="70" fit="fill" />-->
-          <!--</template>-->
-        <!--</el-table-column>-->
-
-      <!--</el-table>-->
-
-    <!--</div>-->
-
-
-    <!--<div>-->
-      <!--<el-table-->
-        <!--:data="tableData"-->
-        <!--style="width: 100%">-->
-
-        <!--<el-table-column-->
-          <!--type="index"-->
-          <!--width="50">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="url"-->
-          <!--label="url"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-          <!--prop="acc"-->
-          <!--label="acc"-->
-          <!--width="180">-->
-        <!--</el-table-column>-->
-
-
-        <!--<el-table-column prop="image" label="image" min-width="20%" >-->
-          <!--&lt;!&ndash; 图片的显示 &ndash;&gt;-->
-          <!--<template   slot-scope="scope">-->
-            <!--&lt;!&ndash;          <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"  min-width="70" height="70" />&ndash;&gt;-->
-            <!--<el-image :src="scope.row.url"  min-width="70" height="70" fit="fill" />-->
-          <!--</template>-->
-        <!--</el-table-column>-->
-
-        <!--<el-table-column-->
-
-          <!--align="right">-->
-          <!--<template slot-scope="scope">-->
-            <!--<el-button-->
-              <!--size="mini"-->
-              <!--@click="detail(scope.$index, scope.row)">detail</el-button>-->
-          <!--</template>-->
-        <!--</el-table-column>-->
-
-      <!--</el-table>-->
-
-    <!--</div>-->
 
   </div>
 </template>
@@ -472,12 +346,12 @@
         Pass(index, row) {
           console.log( index );
 
-          // this.pic = row.picname
-
           var params = new URLSearchParams();
           params.append('username', this.studentID); //你要传给后台的参数值 key/value
           params.append('index', index+1); //你要传给后台的参数值 key/value
           params.append('pic_name', row.picname); //你要传给后台的参数值 key/value
+
+
 
           axios({
             url: '/dashboard/remove',
@@ -487,7 +361,7 @@
             .then( (response) => {
               console.log(response);
 
-              this.$router.go(0)
+              this.tableData.splice(index,1,);
 
             })
             .catch( (error) => {

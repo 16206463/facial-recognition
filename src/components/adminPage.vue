@@ -5,21 +5,21 @@
 
 
     <div>
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="用户姓名">
-          <el-input v-model="formInline.username" placeholder="用户姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="用户类型">
-          <el-select v-model="formInline.type" placeholder="admin 1 / user 0">
-            <el-option label="admin" value='1'></el-option>
-            <el-option label="user" value='0'></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form-item>
+<!--      <el-form :inline="true" :model="formInline" class="demo-form-inline">-->
+<!--        <el-form-item label="用户姓名">-->
+<!--          <el-input v-model="formInline.username" placeholder="User Name"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="用户类型">-->
+<!--          <el-select v-model="formInline.type" placeholder="admin 1 / user 0">-->
+<!--            <el-option label="admin" value='1'></el-option>-->
+<!--            <el-option label="user" value='0'></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item>-->
+<!--          <el-button type="primary" @click="onSubmit">查询</el-button>-->
+<!--        </el-form-item>-->
 
-      </el-form>
+<!--      </el-form>-->
     </div>
 
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
@@ -28,7 +28,8 @@
           <el-table
             :data="noteData"
             border
-            style="width: 50%">
+            empty-text="No data"
+            style="width: 100%">
             <el-table-column
               prop="score"
               label="Warning Score"
@@ -52,6 +53,7 @@
           <el-table
               :data="tableData"
               style="width: 100%"
+              empty-text="No data"
               :row-class-name="tableRowClassName">
 
               <el-table-column

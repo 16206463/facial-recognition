@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <p> finish all test !   Congratulation</p>
+  <p> Finish all tests!  </p>
 
   <p>  Congratulation</p>
 </div>
