@@ -145,7 +145,7 @@
               .then( (response) => {
                 console.log(response);
 
-                if(response.data == "Login successfully"){
+                if(response.data == "Login successfully without model"){
                   this.$message({
                     message: 'login successlly',
                     type: 'success'
@@ -158,6 +158,29 @@
                       studentID: this.ruleForm.account
                     }
                   })
+                }else if(response.data == "Login successfully with model"){
+                  this.$message({
+                    message: 'login successlly',
+                    type: 'success'
+                  });
+
+                  //用户名当参数传递给用户页
+                  // this.$router.push({
+                  //   path: '/question/'+this.ruleForm.account,
+                  //   params: {
+                  //     studentID: this.ruleForm.account
+                  //   }
+                  // })
+
+                  this.$router.push(
+                    {
+                      name: 'question',
+                      params: {
+                        studentID: this.ruleForm.account,
+                        data: 1
+                      }
+                    })
+
                 }else{
                   this.$message.error('Wrong username or password');
                 }
