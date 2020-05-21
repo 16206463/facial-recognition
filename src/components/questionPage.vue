@@ -367,7 +367,7 @@ export default {
         console.log(res);
         this.result = res.data
         //第一题结果比对
-        if (res.data == '18\n' && this.index == 0){
+        if (res.data == '22\n' && this.index == 0){
           this.quesresult == 'true'
           this.$options.methods.setImage(this);
           this.$options.methods.handleUpdata(this,true);
